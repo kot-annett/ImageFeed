@@ -15,7 +15,7 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet private weak var imageCell: UIImageView!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var likeButton: UIButton!
-    @IBOutlet private weak var gradientView: UIView!
+    @IBOutlet private weak var gradientView: GradientLayer!
     
     // MARK: - Public Properties
     
@@ -45,12 +45,9 @@ final class ImagesListCell: UITableViewCell {
     
     func addGradient() {
         let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [
-            UIColor(red: 0.102, green: 0.106, blue: 0.133, alpha: 0).cgColor,
-            UIColor(red: 0.102, green: 0.106, blue: 0.133, alpha: 1).cgColor
-        ]
+        gradientView.startColor = UIColor(red: 0.102, green: 0.106, blue: 0.133, alpha: 0)
+        gradientView.endColor = UIColor(red: 0.102, green: 0.106, blue: 0.133, alpha: 1)
         gradientLayer.frame = gradientView.bounds
-        gradientLayer.bounds.size.height = 30
         gradientView.layer.addSublayer(gradientLayer)
     }
     
