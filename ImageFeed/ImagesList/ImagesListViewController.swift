@@ -44,7 +44,7 @@ extension ImagesListViewController: UITableViewDataSource {
         
         let imageName = photosName[indexPath.row]
         imageListCell.configCell(with: imageName, with: indexPath.row)
-        //imageListCell.addGradient()
+        imageListCell.addGradient()
 
         return imageListCell
     }
