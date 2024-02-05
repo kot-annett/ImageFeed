@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Wfx-nw-zpG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Wfx-nw-zpG">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -23,7 +24,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImageListCell" rowHeight="151" id="0ZG-gD-2DP" customClass="ImagesListCell" customModule="ImageFeed" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="414" height="151"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="151"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0ZG-gD-2DP" id="sjj-gE-JE2">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="151"/>
@@ -176,10 +177,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="268" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="1PG-Qg-b4q">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="268"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="414" id="mii-LZ-Snh"/>
-                                        </constraints>
+                                        <rect key="frame" x="0.0" y="314" width="414" height="268"/>
                                     </imageView>
                                 </subviews>
                                 <viewLayoutGuide key="contentLayoutGuide" id="O9h-dY-62Y"/>
@@ -198,11 +196,12 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kpX-JY-ya4">
-                                <rect key="frame" x="8" y="52" width="48" height="48"/>
+                                <rect key="frame" x="0.0" y="48" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="MWN-CQ-JvV"/>
                                     <constraint firstAttribute="height" constant="48" id="UP7-dd-bNe"/>
                                 </constraints>
+                                <color key="tintColor" systemColor="systemBackgroundColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="Backward"/>
                                 <connections>
@@ -213,16 +212,18 @@
                         <viewLayoutGuide key="safeArea" id="PDR-bM-fo4"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
+                            <constraint firstItem="1PG-Qg-b4q" firstAttribute="leading" secondItem="PDR-bM-fo4" secondAttribute="leading" id="3aG-hs-S6a"/>
                             <constraint firstItem="l1z-gl-Rcg" firstAttribute="trailing" secondItem="pmG-RL-Bck" secondAttribute="trailing" id="9Ip-AB-qjw"/>
                             <constraint firstAttribute="bottom" secondItem="U6g-fm-Czq" secondAttribute="bottom" constant="46" id="9wf-KL-YcU"/>
-                            <constraint firstItem="l1z-gl-Rcg" firstAttribute="top" secondItem="1PG-Qg-b4q" secondAttribute="top" id="Dr1-gf-Ihw"/>
+                            <constraint firstItem="l1z-gl-Rcg" firstAttribute="trailing" secondItem="1PG-Qg-b4q" secondAttribute="trailing" id="GdV-Vo-sl8"/>
+                            <constraint firstItem="1PG-Qg-b4q" firstAttribute="centerX" secondItem="l1z-gl-Rcg" secondAttribute="centerX" id="KPj-fy-AvA"/>
                             <constraint firstAttribute="bottom" secondItem="l1z-gl-Rcg" secondAttribute="bottom" id="MZi-Mx-MgA"/>
-                            <constraint firstItem="l1z-gl-Rcg" firstAttribute="trailing" secondItem="1PG-Qg-b4q" secondAttribute="trailing" id="MrM-aj-Nxc"/>
-                            <constraint firstItem="l1z-gl-Rcg" firstAttribute="bottom" secondItem="1PG-Qg-b4q" secondAttribute="bottom" constant="628" id="Qpm-ji-aPz"/>
-                            <constraint firstItem="kpX-JY-ya4" firstAttribute="leading" secondItem="PDR-bM-fo4" secondAttribute="leading" constant="8" id="Rr3-1T-270"/>
+                            <constraint firstItem="kpX-JY-ya4" firstAttribute="leading" secondItem="pmG-RL-Bck" secondAttribute="leading" id="Rr3-1T-270"/>
                             <constraint firstItem="l1z-gl-Rcg" firstAttribute="top" secondItem="pmG-RL-Bck" secondAttribute="top" id="XLC-9J-bec"/>
+                            <constraint firstItem="1PG-Qg-b4q" firstAttribute="centerY" secondItem="l1z-gl-Rcg" secondAttribute="centerY" id="Y9e-cA-Mk6"/>
                             <constraint firstItem="l1z-gl-Rcg" firstAttribute="leading" secondItem="pmG-RL-Bck" secondAttribute="leading" id="bcr-yT-AOA"/>
-                            <constraint firstItem="1PG-Qg-b4q" firstAttribute="leading" secondItem="l1z-gl-Rcg" secondAttribute="leading" id="uBN-0x-djw"/>
+                            <constraint firstItem="l1z-gl-Rcg" firstAttribute="bottom" secondItem="1PG-Qg-b4q" secondAttribute="bottom" constant="314" id="oiZ-8O-Au1"/>
+                            <constraint firstItem="1PG-Qg-b4q" firstAttribute="top" secondItem="l1z-gl-Rcg" secondAttribute="top" constant="314" id="ub9-cl-2K5"/>
                             <constraint firstItem="U6g-fm-Czq" firstAttribute="centerX" secondItem="PDR-bM-fo4" secondAttribute="centerX" id="yrD-vO-Z7S"/>
                             <constraint firstItem="kpX-JY-ya4" firstAttribute="top" secondItem="PDR-bM-fo4" secondAttribute="top" constant="4" id="zTs-pE-vuI"/>
                         </constraints>
@@ -244,8 +245,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vQI-7S-u2E" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="mZD-ZK-DwM"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mfg-yC-FAH">
-                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
+                    <navigationBar key="navigationBar" hidden="YES" contentMode="scaleToFill" id="mfg-yC-FAH">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -273,5 +274,8 @@
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
