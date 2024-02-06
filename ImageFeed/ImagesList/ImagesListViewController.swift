@@ -12,6 +12,7 @@ final class ImagesListViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
+    private let ShowSingleImageSequeIdentifier = "ShowSingleImage"
     
     // MARK: - UIStatusBarStyle
     
@@ -25,6 +26,19 @@ final class ImagesListViewController: UIViewController {
         super.viewDidLoad()
         
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+    }
+    
+    // MARK: - Public methods
+
+    override func prepare(for seque: UIStoryboardSegue, sender: Any?) {
+        if seque.identifier == ShowSingleImageSequeIdentifier {
+            let viewController = seque.destination as! SingleImageViewController
+            let indexPath = sender as! IndexPath
+            let image = UIImage(named: photosName[indexPath.row])
+            viewController.image = image
+        } else {
+            super.prepare(for: seque, sender: sender)
+        }
     }
 }
 
@@ -54,7 +68,7 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        performSegue(withIdentifier: ShowSingleImageSequeIdentifier, sender: indexPath)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
