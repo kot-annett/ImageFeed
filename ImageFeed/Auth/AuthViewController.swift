@@ -11,7 +11,7 @@ final class AuthViewController: UIViewController {
     
     private let showWebViewSegueIdentifier = "ShowWebView"
     
-    // weak var delegate: AuthViewControllerDelegate?
+    private var delegate: AuthViewControllerDelegate?
     
     private var authLogoImage: UIImageView!
     private var logInButton: UIButton!
@@ -73,16 +73,7 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-//        let oauthService = OAuth2Service()
-//        
-//        oauthService.fetchOAuthToken(code) { result in
-//            switch result {
-//            case .success(let accessToken):
-//                self.delegate?.authViewController(self, didAuthenticateWithCode: accessToken)
-//            case .failure(let error):
-//                print("Failed to authenticate: \(error)")
-//            }
-//        }
+        delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
