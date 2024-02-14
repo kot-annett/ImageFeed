@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		951667C52B7CB8E7006C9B8E /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951667C42B7CB8E6006C9B8E /* SplashViewController.swift */; };
 		951E560D2B592A950027BD72 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951E560C2B592A950027BD72 /* ProfileViewController.swift */; };
 		951E56102B5A81700027BD72 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951E560F2B5A81700027BD72 /* SingleImageViewController.swift */; };
 		95285B912B4BF5A50013A099 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95285B902B4BF5A50013A099 /* AppDelegate.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		951667C42B7CB8E6006C9B8E /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		951E560C2B592A950027BD72 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		951E560F2B5A81700027BD72 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		95285B8D2B4BF5A50013A099 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,6 +61,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		951667C62B7CB8ED006C9B8E /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				951667C42B7CB8E6006C9B8E /* SplashViewController.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
 		951E560E2B5935AE0027BD72 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -98,6 +108,7 @@
 				95285B922B4BF5A50013A099 /* SceneDelegate.swift */,
 				95D7B2612B7396E8007AB980 /* Constants.swift */,
 				95D7B26B2B7A1344007AB980 /* ServiceAccessLayer */,
+				951667C62B7CB8ED006C9B8E /* Splash */,
 				95285BA62B4C0B940013A099 /* ImagesList */,
 				951E56112B5A84A50027BD72 /* SingleImageView */,
 				95D7B2652B76291F007AB980 /* Auth */,
@@ -236,6 +247,7 @@
 				95285B912B4BF5A50013A099 /* AppDelegate.swift in Sources */,
 				951E560D2B592A950027BD72 /* ProfileViewController.swift in Sources */,
 				95285B932B4BF5A50013A099 /* SceneDelegate.swift in Sources */,
+				951667C52B7CB8E7006C9B8E /* SplashViewController.swift in Sources */,
 				951E56102B5A81700027BD72 /* SingleImageViewController.swift in Sources */,
 				95D7B26F2B7A1771007AB980 /* OAuthTokenResponseBody.swift in Sources */,
 				95FEA0BC2B568C280009C210 /* GradientLayer.swift in Sources */,

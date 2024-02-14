@@ -11,7 +11,7 @@ final class AuthViewController: UIViewController {
     
     private let showWebViewSegueIdentifier = "ShowWebView"
     
-    private var delegate: AuthViewControllerDelegate?
+    var delegate: AuthViewControllerDelegate?
     
     private var authLogoImage: UIImageView!
     private var logInButton: UIButton!

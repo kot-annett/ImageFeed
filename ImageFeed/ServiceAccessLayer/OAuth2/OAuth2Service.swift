@@ -7,7 +7,7 @@
 
 import Foundation
 
-//fileprivate let tokenURL = URL(string: "https://unsplash.com/oauth/token")!
+fileprivate let tokenURL = URL(string: "https://unsplash.com/oauth/token")!
 
 final class OAuth2Service {
     static let shared = OAuth2Service()
