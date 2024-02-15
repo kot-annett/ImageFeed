@@ -11,10 +11,26 @@ final class AuthViewController: UIViewController {
     
     private let showWebViewSegueIdentifier = "ShowWebView"
     
-    var delegate: AuthViewControllerDelegate?
+    weak var delegate: AuthViewControllerDelegate?
     
-    private var authLogoImage: UIImageView!
-    private var logInButton: UIButton!
+    private lazy var authLogoImage: UIImageView = {
+        let logoImage = UIImage(named: "auth_screen_logo")
+        let imageView = UIImageView(image: logoImage)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    private lazy var logInButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Войти", for: .normal)
+        button.setTitleColor(UIColor(red: 26/255, green: 27/255, blue: 34/255, alpha: 1.0), for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 16
+        button.layer.masksToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(logInButtonTapped), for: .touchUpInside)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,22 +43,8 @@ final class AuthViewController: UIViewController {
     }
     
     func addSubviews() {
-        let logoImage = UIImage(named: "auth_screen_logo")
-        authLogoImage = UIImageView(image: logoImage)
-        authLogoImage.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(authLogoImage)
-        
-        logInButton = UIButton(type: .system)
-        logInButton.setTitle("Войти", for: .normal)
-        logInButton.setTitleColor(UIColor(red: 26/255, green: 27/255, blue: 34/255, alpha: 1.0), for: .normal)
-        logInButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        logInButton.backgroundColor = .white
-        logInButton.layer.cornerRadius = 16
-        logInButton.layer.masksToBounds = true
-        logInButton.translatesAutoresizingMaskIntoConstraints = false
-        logInButton.addTarget(self, action: #selector(logInButtonTapped), for: .touchUpInside)
         view.addSubview(logInButton)
-        
     }
     
     func configureConstraints() {

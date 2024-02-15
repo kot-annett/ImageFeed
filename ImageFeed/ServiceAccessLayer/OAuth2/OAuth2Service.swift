@@ -10,7 +10,7 @@ import Foundation
 fileprivate let tokenURL = URL(string: "https://unsplash.com/oauth/token")!
 
 final class OAuth2Service {
-    static let shared = OAuth2Service()
+    private static let shared = OAuth2Service()
     private let urlSession = URLSession.shared
 
     private (set) var authToken: String? {
@@ -23,19 +23,23 @@ final class OAuth2Service {
     }
     
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        let request = authTokenRequest(code: code)
-        let task = object(for: request) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let body):
-                let authToken = body.accessToken
-                self.authToken = authToken
-                completion(.success(authToken))
-            case .failure(let error):
-                completion(.failure(error))
+        do {
+            let request = try authTokenRequest(code: code)
+            let task = object(for: request) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(let body):
+                    let authToken = body.accessToken
+                    self.authToken = authToken
+                    completion(.success(authToken))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
+            task.resume()
+        } catch {
+            completion(.failure(error))
         }
-        task.resume()
     }
 }
 
@@ -55,8 +59,9 @@ extension OAuth2Service {
         }
     }
     
-    private func authTokenRequest(code: String) -> URLRequest {
-        URLRequest.makeHTTPRequest(
+    private func authTokenRequest(code: String) throws -> URLRequest {
+        
+       guard let request = URLRequest.makeHTTPRequest(
             path: "/oauth/token"
             + "?client_id=\(accessKey)"
             + "&&client_secret=\(secretKey)"
@@ -64,8 +69,11 @@ extension OAuth2Service {
             + "&&code=\(code)"
             + "&&grant_type=authorization_code",
             httpMethod: "POST",
-            baseURL: URL(string: "https://unsplash.com")!
-        )
+            baseURL: URL(string: "https://unsplash.com")
+       ) else {
+           throw NetworkError.badURL
+       }
+        return request
     }
 }
 
@@ -73,9 +81,12 @@ extension URLRequest {
     static func makeHTTPRequest(
         path: String,
         httpMethod: String,
-        baseURL: URL = defaultBaseURL
-    ) -> URLRequest {
-        var request = URLRequest(url: URL(string: path, relativeTo: baseURL)!)
+        baseURL: URL? = defaultBaseURL
+    ) -> URLRequest? {
+        guard let baseURL = baseURL else { return nil }
+        guard let url = URL(string: path, relativeTo: baseURL) else { return nil }
+
+        var request = URLRequest(url: url)
         request.httpMethod = httpMethod
         return request
     }
