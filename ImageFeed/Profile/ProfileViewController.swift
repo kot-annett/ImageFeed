@@ -38,7 +38,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Public Methods
     
-    func addSubviews() {
+    private func addSubviews() {
         let profileImage = UIImage(named: "userPhoto")
         userPhoto = UIImageView(image: profileImage)
         userPhoto.translatesAutoresizingMaskIntoConstraints = false
@@ -75,7 +75,7 @@ final class ProfileViewController: UIViewController {
         view.addSubview(logOutButton)
     }
     
-    func configurateConstraints() {
+    private func configurateConstraints() {
         userPhoto.widthAnchor.constraint(equalToConstant: 70).isActive = true
         userPhoto.heightAnchor.constraint(equalToConstant: 70).isActive = true
         userPhoto.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
