@@ -12,7 +12,10 @@ fileprivate let tokenURL = URL(string: "https://unsplash.com/oauth/token")!
 final class OAuth2Service {
     private static let shared = OAuth2Service()
     private let urlSession = URLSession.shared
-
+    
+    private var task: URLSessionTask?
+    private var lastCode: String?
+    
     private (set) var authToken: String? {
         get {
             return OAuth2TokenStorage().token
@@ -23,19 +26,26 @@ final class OAuth2Service {
     }
     
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        if lastCode == code { return }
+        task?.cancel()
+        lastCode = code
         do {
             let request = try authTokenRequest(code: code)
             let task = object(for: request) { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .success(let body):
-                    let authToken = body.accessToken
-                    self.authToken = authToken
-                    completion(.success(authToken))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
+                    guard let self = self else { return }
+                    switch result {
+                    case .success(let body):
+                        let authToken = body.accessToken
+                        self.authToken = authToken
+                        completion(.success(authToken))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                    self.task = nil
+                    self.lastCode = nil
             }
+            self.task = task
             task.resume()
         } catch {
             completion(.failure(error))
@@ -131,4 +141,73 @@ enum NetworkError: Error {
     case urlRequestError(Error)
     case urlSessionError
 }
+
+
+//    func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
+//        do {
+//            let request = try authTokenRequest(code: code)
+//            let task = object(for: request) { [weak self] result in
+//                guard let self = self else { return }
+//                switch result {
+//                case .success(let body):
+//                    let authToken = body.accessToken
+//                    self.authToken = authToken
+//                    completion(.success(authToken))
+//                case .failure(let error):
+//                    completion(.failure(error))
+//                }
+//            }
+//            task.resume()
+//        } catch {
+//            completion(.failure(error))
+//        }
+//    }
+//}
+
+
+
+//    func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
+//        assert(Thread.isMainThread)
+//        if lastCode == code { return }
+//        task?.cancel()
+//        lastCode = code
+//
+//        let request = makeRequest(code: code)
+//        let task = urlSession.dataTask(with: request) { data, response, error in
+//            DispatchQueue.main.async {
+//                if let error = error {
+//                    completion(.failure(error))
+//                    self.task = nil
+//                    self.lastCode = nil
+//                    return
+//                }
+//                guard let data = data else {
+//                    completion(.failure(NetworkError.urlSessionError))
+//                    self.task = nil
+//                    self.lastCode = nil
+//                    return
+//                }
+//                do {
+//                    let body = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
+//                    let authToken = body.accessToken
+//                    self.authToken = authToken
+//                    completion(.success(authToken))
+//                } catch {
+//                    completion(.failure(error))
+//                }
+//                self.task = nil
+//                self.lastCode = nil
+//            }
+//        }
+//        self.task = task
+//        task.resume()
+//    }
+//
+//    private func makeRequest(code: String) -> URLRequest {
+//        guard let url = URL(string: "...\(code)") else { fatalError("Failed to create URL")}
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "POST"
+//        return request
+//    }
+//}
 
