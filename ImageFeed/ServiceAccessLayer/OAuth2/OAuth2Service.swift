@@ -33,6 +33,7 @@ final class OAuth2Service {
         do {
             let request = try authTokenRequest(code: code)
             let task = object(for: request) { [weak self] result in
+                DispatchQueue.main.async {
                     guard let self = self else { return }
                     switch result {
                     case .success(let body):
@@ -44,6 +45,7 @@ final class OAuth2Service {
                     }
                     self.task = nil
                     self.lastCode = nil
+                }
             }
             self.task = task
             task.resume()
@@ -140,6 +142,7 @@ enum NetworkError: Error {
     case badWebKitResponse
     case urlRequestError(Error)
     case urlSessionError
+    case invalidAccessToken
 }
 
 

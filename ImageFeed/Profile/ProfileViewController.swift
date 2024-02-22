@@ -17,6 +17,10 @@ final class ProfileViewController: UIViewController {
     private var descriptionLabel: UILabel!
     private var logOutButton: UIButton!
     
+    // MARK: - Properties
+    
+    let profileService = ProfileService.shared
+    
     // MARK: - UIStatusBarStyle
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -29,6 +33,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         addSubviews()
         configurateConstraints()
+        updateProfileDetails()
     }
     
     // MARK: - IB Actions
@@ -92,5 +97,13 @@ final class ProfileViewController: UIViewController {
 
         logOutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
         logOutButton.centerYAnchor.constraint(equalTo: userPhoto.centerYAnchor).isActive = true
+    }
+    
+    private func updateProfileDetails() {
+        guard let profile = profileService.profile else { return }
+        
+        userNameLabel.text = profile.name
+        loginNameLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
     }
 }

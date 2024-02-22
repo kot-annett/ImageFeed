@@ -19,6 +19,7 @@
 		95285B9A2B4BF5A60013A099 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95285B992B4BF5A60013A099 /* Assets.xcassets */; };
 		95285B9D2B4BF5A60013A099 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95285B9B2B4BF5A60013A099 /* LaunchScreen.storyboard */; };
 		95285BA52B4C0B4E0013A099 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95285BA42B4C0B4E0013A099 /* ImagesListCell.swift */; };
+		95C6279B2B87B0A3001BB2C1 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6279A2B87B0A3001BB2C1 /* ProfileService.swift */; };
 		95CA7AAB2B542EF20059B076 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CA7AAA2B542EF20059B076 /* UIColor+Extensions.swift */; };
 		95D7B2622B7396E8007AB980 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D7B2612B7396E8007AB980 /* Constants.swift */; };
 		95D7B2642B762911007AB980 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D7B2632B762911007AB980 /* AuthViewController.swift */; };
@@ -43,6 +44,7 @@
 		95285B9C2B4BF5A60013A099 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		95285B9E2B4BF5A60013A099 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95285BA42B4C0B4E0013A099 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		95C6279A2B87B0A3001BB2C1 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		95CA7AAA2B542EF20059B076 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		95D7B2612B7396E8007AB980 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		95D7B2632B762911007AB980 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				95D7B26A2B7A1334007AB980 /* OAuth2 */,
+				95C6279A2B87B0A3001BB2C1 /* ProfileService.swift */,
 			);
 			path = ServiceAccessLayer;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 				95D7B2642B762911007AB980 /* AuthViewController.swift in Sources */,
 				95285BA52B4C0B4E0013A099 /* ImagesListCell.swift in Sources */,
 				95D7B2672B766B46007AB980 /* WebViewViewController.swift in Sources */,
+				95C6279B2B87B0A3001BB2C1 /* ProfileService.swift in Sources */,
 				95285B912B4BF5A50013A099 /* AppDelegate.swift in Sources */,
 				951E560D2B592A950027BD72 /* ProfileViewController.swift in Sources */,
 				95285B932B4BF5A50013A099 /* SceneDelegate.swift in Sources */,
