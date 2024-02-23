@@ -72,6 +72,16 @@ extension SplashViewController: AuthViewControllerDelegate {
 //        }
     }
     
+    func didAuthenticate(_ vc: AuthViewController) {
+        vc.dismiss(animated: true)
+        
+        guard let token = oauth2TokenStorage.token else {
+            return
+        }
+        
+        fetchProfile(token: token)
+    }
+    
     private func fetchOAuthToken(_ code: String) {
         oauth2Service.fetchOAuthToken(code) { [weak self] result in
             guard let self = self else { return }
@@ -86,16 +96,18 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     private func fetchProfile(token: String) {
+        UIBlockingProgressHUD.show()
         profileService.fetchProfile(token) { [weak self] result in
             DispatchQueue.main.async {
+                UIBlockingProgressHUD.dismiss()
+                
                 guard let self = self else { return }
+                
                 switch result {
                 case .success(let profile):
                     self.profileService.profile = profile
-                    UIBlockingProgressHUD.dismiss()
                     self.switchToTabBarController()
                 case .failure:
-                    UIBlockingProgressHUD.dismiss()
                     // TODO [Sprint 11] Показать ошибку
                     break
                 }
