@@ -41,6 +41,7 @@ final class AuthViewController: UIViewController {
     
     @IBAction private func logInButtonTapped() {
         performSegue(withIdentifier: "ShowWebView", sender: nil)
+        showErrorAlert()
     }
     
     func addSubviews() {
@@ -61,6 +62,17 @@ final class AuthViewController: UIViewController {
             logInButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
             logInButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+    }
+    
+    private func showErrorAlert() {
+        let alertController = UIAlertController(
+            title: "Что-то пошло не так",
+            message: "Не удалось войти в систему",
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

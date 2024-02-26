@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 final class ProfileService {
     struct ProfileResult: Codable {
         let username: String
@@ -49,40 +48,17 @@ final class ProfileService {
         task?.cancel()
         
         guard let request = makeProfileRequest(token: token) else {
-            completion(.failure(NetworkError.badURL))
+            let error = NetworkError.badURL
+            print("[fetchProfile]: \(error) - token: \(token)")
+            completion(.failure(error))
             return
         }
         
-        task = urlSession.dataTask(with: request) { [weak self] data, response, error in
+        task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             guard let self = self else { return }
             
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                completion(.failure(NetworkError.badWebKitResponse))
-                return
-            }
-            
-            if httpResponse.statusCode == 401 {
-                completion(.failure(NetworkError.invalidAccessToken))
-                return
-            }
-            
-            guard 200..<300 ~= httpResponse.statusCode else {
-                completion(.failure(NetworkError.httpStatusCode(httpResponse.statusCode)))
-                return
-            }
-            
-            do {
-                guard let data = data else {
-                    completion(.failure(NetworkError.urlSessionError))
-                    return
-                }
-                
-                let profileResult = try JSONDecoder().decode(ProfileResult.self, from: data)
+            switch result {
+            case .success(let profileResult):
                 let profile = Profile(
                     username: profileResult.username,
                     firstName: profileResult.firstName,
@@ -90,10 +66,13 @@ final class ProfileService {
                     bio: profileResult.bio
                 )
                 completion(.success(profile))
-            } catch {
+            case .failure(let error):
+                print("[fetchProfile]: \(error)")
                 completion(.failure(error))
             }
-        }
+            
+            self.task = nil
+        } as? URLSessionDataTask
         
         task?.resume()
     }
@@ -106,3 +85,47 @@ final class ProfileService {
         return request
     }
 }
+
+
+
+//        task = urlSession.dataTask(with: request) { [weak self] data, response, error in
+//            guard let self = self else { return }
+//
+//            if let error = error {
+//                completion(.failure(error))
+//                return
+//            }
+//
+//            guard let httpResponse = response as? HTTPURLResponse else {
+//                completion(.failure(NetworkError.badWebKitResponse))
+//                return
+//            }
+//
+//            if httpResponse.statusCode == 401 {
+//                completion(.failure(NetworkError.invalidAccessToken))
+//                return
+//            }
+//
+//            guard 200..<300 ~= httpResponse.statusCode else {
+//                completion(.failure(NetworkError.httpStatusCode(httpResponse.statusCode)))
+//                return
+//            }
+//
+//            do {
+//                guard let data = data else {
+//                    completion(.failure(NetworkError.urlSessionError))
+//                    return
+//                }
+//
+//                let profileResult = try JSONDecoder().decode(ProfileResult.self, from: data)
+//                let profile = Profile(
+//                    username: profileResult.username,
+//                    firstName: profileResult.firstName,
+//                    lastName: profileResult.lastName,
+//                    bio: profileResult.bio
+//                )
+//                completion(.success(profile))
+//            } catch {
+//                completion(.failure(error))
+//            }
+//        }

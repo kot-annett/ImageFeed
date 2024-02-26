@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     
@@ -20,6 +21,14 @@ final class ProfileViewController: UIViewController {
     // MARK: - Properties
     
     let profileService = ProfileService.shared
+    private var profileImageServiceObserver : NSObjectProtocol?
+    
+//    private let profilePhoto: UIImageView = {
+//        let image = UIImage(named: "placeholder")
+//        let imageView = UIImageView(image: image)
+//        imageView.translatesAutoresizingMaskIntoConstraints = false
+//        return imageView
+//    }()
     
     // MARK: - UIStatusBarStyle
     
@@ -31,6 +40,18 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
+        
         addSubviews()
         configurateConstraints()
         updateProfileDetails()
@@ -44,7 +65,7 @@ final class ProfileViewController: UIViewController {
     // MARK: - Public Methods
     
     private func addSubviews() {
-        let profileImage = UIImage(named: "userPhoto")
+        let profileImage = UIImage(named: "placeholder")
         userPhoto = UIImageView(image: profileImage)
         userPhoto.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(userPhoto)
@@ -97,6 +118,26 @@ final class ProfileViewController: UIViewController {
 
         logOutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
         logOutButton.centerYAnchor.constraint(equalTo: userPhoto.centerYAnchor).isActive = true
+    }
+    
+    private func updateAvatar() {
+        guard let profileImageURL = ProfileImageService.shared.avatarURL,
+              let url = URL(string: profileImageURL) else { return }
+        
+        let cache = ImageCache.default
+        cache.clearDiskCache()
+        let processor = RoundCornerImageProcessor(cornerRadius: 42)
+        userPhoto.kf.setImage(with: url,
+                              placeholder: UIImage(named: "placeholder"),
+                              options: [.processor(processor), .transition(.fade(1))],
+                              progressBlock: nil) { result in
+            switch result {
+            case .success(let value):
+                print("Изображение успешно загружено: \(value.image)")
+            case .failure(let error):
+                print("Ошибка при загрузке изображения: \(error)")
+            }
+        }
     }
     
     private func updateProfileDetails() {
