@@ -36,12 +36,6 @@ final class ProfileImageService {
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         task?.cancel()
         
-        NotificationCenter.default
-            .post(
-                name: ProfileImageService.didChangeNotification,
-                object: self,
-                userInfo: ["URL": avatarURL as Any])
-        
         guard let token = oauth2TokenStorage.token else {
             let error = NetworkError.invalidAccessToken
             print("[fetchProfileImageURL]: \(error)")
@@ -56,19 +50,31 @@ final class ProfileImageService {
             return
         }
         
-        task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileImage, Error>) in
+        task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             guard let self = self else { return }
             
             switch result {
-            case .success(let profileImage):
-                self.avatarURL = profileImage.small
-                completion(.success(self.avatarURL ?? ""))
+            case .success(let userResult):
+                if let smallURL = userResult.profileImage.small {
+                    self.avatarURL = smallURL
+                    completion(.success(smallURL))
+                    NotificationCenter.default.post(
+                        name: ProfileImageService.didChangeNotification,
+                        object: self,
+                        userInfo: ["URL": smallURL])
+                } else {
+                    print("Profile image URL is nil")
+                }
+                
+                print("Profile image URL: \(userResult.profileImage)")
+                print("Profile image URL: \(self.avatarURL ?? "URL is nil")")
+                
             case .failure(let error):
                 print("[fetchProfileImageURL]: \(error)")
                 completion(.failure(error))
             }
         }
-       
+        
         task?.resume()
     }
     

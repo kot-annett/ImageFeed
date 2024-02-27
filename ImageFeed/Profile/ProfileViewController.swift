@@ -23,13 +23,6 @@ final class ProfileViewController: UIViewController {
     let profileService = ProfileService.shared
     private var profileImageServiceObserver : NSObjectProtocol?
     
-//    private let profilePhoto: UIImageView = {
-//        let image = UIImage(named: "placeholder")
-//        let imageView = UIImageView(image: image)
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
-//        return imageView
-//    }()
-    
     // MARK: - UIStatusBarStyle
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -127,7 +120,7 @@ final class ProfileViewController: UIViewController {
         let cache = ImageCache.default
         cache.clearDiskCache()
         let processor = RoundCornerImageProcessor(cornerRadius: 42)
-        userPhoto.kf.setImage(with: url,
+        userPhoto?.kf.setImage(with: url,
                               placeholder: UIImage(named: "placeholder"),
                               options: [.processor(processor), .transition(.fade(1))],
                               progressBlock: nil) { result in
