@@ -21,6 +21,7 @@
 		95285BA52B4C0B4E0013A099 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95285BA42B4C0B4E0013A099 /* ImagesListCell.swift */; };
 		9536491B2B8C82DD00003D9A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 9536491A2B8C82DD00003D9A /* Kingfisher */; };
 		9536491E2B8E65ED00003D9A /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 9536491D2B8E65ED00003D9A /* SwiftKeychainWrapper */; };
+		953649202B8E69DB00003D9A /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9536491F2B8E69DB00003D9A /* TabBarController.swift */; };
 		95C6279B2B87B0A3001BB2C1 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6279A2B87B0A3001BB2C1 /* ProfileService.swift */; };
 		95C6279D2B8893C5001BB2C1 /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6279C2B8893C5001BB2C1 /* ProfileImageService.swift */; };
 		95CA7AAB2B542EF20059B076 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CA7AAA2B542EF20059B076 /* UIColor+Extensions.swift */; };
@@ -47,6 +48,7 @@
 		95285B9C2B4BF5A60013A099 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		95285B9E2B4BF5A60013A099 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95285BA42B4C0B4E0013A099 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		9536491F2B8E69DB00003D9A /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		95C6279A2B87B0A3001BB2C1 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		95C6279C2B8893C5001BB2C1 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 		95CA7AAA2B542EF20059B076 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				951E56112B5A84A50027BD72 /* SingleImageView */,
 				95D7B2652B76291F007AB980 /* Auth */,
 				951E560E2B5935AE0027BD72 /* Profile */,
+				953649212B8E69EA00003D9A /* TabBar */,
 				95CA7AAC2B543C720059B076 /* Helpers */,
 				95285B962B4BF5A50013A099 /* Main.storyboard */,
 				95285B992B4BF5A60013A099 /* Assets.xcassets */,
@@ -150,6 +153,14 @@
 				95285BA42B4C0B4E0013A099 /* ImagesListCell.swift */,
 			);
 			path = ImagesList;
+			sourceTree = "<group>";
+		};
+		953649212B8E69EA00003D9A /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				9536491F2B8E69DB00003D9A /* TabBarController.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		95CA7AAC2B543C720059B076 /* Helpers */ = {
@@ -281,6 +292,7 @@
 				95C6279B2B87B0A3001BB2C1 /* ProfileService.swift in Sources */,
 				95285B912B4BF5A50013A099 /* AppDelegate.swift in Sources */,
 				951E560D2B592A950027BD72 /* ProfileViewController.swift in Sources */,
+				953649202B8E69DB00003D9A /* TabBarController.swift in Sources */,
 				95285B932B4BF5A50013A099 /* SceneDelegate.swift in Sources */,
 				951667C52B7CB8E7006C9B8E /* SplashViewController.swift in Sources */,
 				951E56102B5A81700027BD72 /* SingleImageViewController.swift in Sources */,

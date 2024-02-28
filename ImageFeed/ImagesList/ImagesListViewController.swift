@@ -24,10 +24,31 @@ final class ImagesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        print("ImagesListViewController: viewDidLoad() called")
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView?.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("ImagesListViewController: viewWillAppear(_:) called")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("ImagesListViewController: viewDidAppear(_:) called")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("ImagesListViewController: viewWillDisappear(_:) called")
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        print("ImagesListViewController: viewDidDisappear(_:) called")
+    }
     // MARK: - Public methods
 
     override func prepare(for seque: UIStoryboardSegue, sender: Any?) {
