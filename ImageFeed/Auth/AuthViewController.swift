@@ -8,7 +8,7 @@
 import UIKit
 import ProgressHUD
 
-final class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController, AuthViewControllerDelegate {
     
     private let showWebViewSegueIdentifier = "ShowWebView"
     
@@ -39,8 +39,17 @@ final class AuthViewController: UIViewController {
         configureConstraints()
     }
     
-    @IBAction private func logInButtonTapped() {
-        performSegue(withIdentifier: "ShowWebView", sender: nil)
+    @objc func logInButtonTapped() {
+//        let authViewController = AuthViewController()
+//        authViewController.delegate = self
+//        authViewController.modalPresentationStyle = .fullScreen
+//        present(authViewController, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let webViewViewController = storyboard.instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController {
+            webViewViewController.delegate = self
+            present(webViewViewController, animated: true, completion: nil)
+        }
+        //performSegue(withIdentifier: "ShowWebView", sender: nil)
         showErrorAlert()
     }
     
@@ -62,6 +71,10 @@ final class AuthViewController: UIViewController {
             logInButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
             logInButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+    }
+    
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        dismiss(animated: true)
     }
     
     private func showErrorAlert() {

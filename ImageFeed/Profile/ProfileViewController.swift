@@ -52,7 +52,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - IB Actions
     
-    @IBAction private func logOutButtonTapped() {
+    @objc func logOutButtonTapped() {
     }
     
     // MARK: - Public Methods

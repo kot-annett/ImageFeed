@@ -49,6 +49,8 @@
 		95285B9E2B4BF5A60013A099 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95285BA42B4C0B4E0013A099 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		9536491F2B8E69DB00003D9A /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		95C0BEF82B8FA78600066A47 /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
+		95C0BEF92B8FA78600066A47 /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
 		95C6279A2B87B0A3001BB2C1 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		95C6279C2B8893C5001BB2C1 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 		95CA7AAA2B542EF20059B076 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				95285B992B4BF5A60013A099 /* Assets.xcassets */,
 				95285B9B2B4BF5A60013A099 /* LaunchScreen.storyboard */,
 				95285B9E2B4BF5A60013A099 /* Info.plist */,
+				95C0BEF62B8FA75500066A47 /* Resources */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
@@ -161,6 +164,23 @@
 				9536491F2B8E69DB00003D9A /* TabBarController.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		95C0BEF62B8FA75500066A47 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				95C0BEF72B8FA76700066A47 /* Fonts */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		95C0BEF72B8FA76700066A47 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				95C0BEF92B8FA78600066A47 /* YS Display-Bold.ttf */,
+				95C0BEF82B8FA78600066A47 /* YS Display-Medium.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		95CA7AAC2B543C720059B076 /* Helpers */ = {
