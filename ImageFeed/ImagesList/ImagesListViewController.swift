@@ -8,12 +8,10 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
-
-    //@IBOutlet private weak var tableView: UITableView!
     
     private let tableView = UITableView()
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
-    private let ShowSingleImageSequeIdentifier = "ShowSingleImage"
+    //private let ShowSingleImageSequeIdentifier = "ShowSingleImage"
     
     // MARK: - UIStatusBarStyle
     
@@ -51,17 +49,17 @@ final class ImagesListViewController: UIViewController {
     }
     // MARK: - Public methods
 
-    override func prepare(for seque: UIStoryboardSegue, sender: Any?) {
-        if seque.identifier == ShowSingleImageSequeIdentifier {
-            guard let indexPath = sender as? IndexPath else { return }
-            let viewController = seque.destination as! SingleImageViewController
-            //let indexPath = sender as! IndexPath
-            let image = UIImage(named: photosName[indexPath.row])
-            viewController.image = image
-        } else {
-            super.prepare(for: seque, sender: sender)
-        }
-    }
+//    override func prepare(for seque: UIStoryboardSegue, sender: Any?) {
+//        if seque.identifier == ShowSingleImageSequeIdentifier {
+//            guard let indexPath = sender as? IndexPath else { return }
+//            let viewController = seque.destination as! SingleImageViewController
+//            //let indexPath = sender as! IndexPath
+//            let image = UIImage(named: photosName[indexPath.row])
+//            viewController.image = image
+//        } else {
+//            super.prepare(for: seque, sender: sender)
+//        }
+//    }
     
     // MARK: - Private methods
     
@@ -72,7 +70,6 @@ final class ImagesListViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor.clear
-        //tableView.backgroundColor = UIColor(named: "YP Black")
         
         view.addSubview(tableView)
         
@@ -113,7 +110,16 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: ShowSingleImageSequeIdentifier, sender: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
+        //performSegue(withIdentifier: ShowSingleImageSequeIdentifier, sender: indexPath)
+        let singleImageVC = SingleImageViewController()
+        singleImageVC.modalPresentationStyle = .fullScreen
+        singleImageVC.modalTransitionStyle = .coverVertical
+        
+        let imageName = photosName[indexPath.row]
+        singleImageVC.image = UIImage(named: imageName)
+        present(singleImageVC, animated: true, completion: nil)
+    
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

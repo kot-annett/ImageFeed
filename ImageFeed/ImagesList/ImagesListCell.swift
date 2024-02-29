@@ -10,13 +10,6 @@ import UIKit
 
 final class ImagesListCell: UITableViewCell {
     
-    // MARK: - IB Outlets
-    
-//    @IBOutlet private weak var imageCell: UIImageView!
-//    @IBOutlet private weak var dateLabel: UILabel!
-//    @IBOutlet private weak var likeButton: UIButton!
-//    @IBOutlet private weak var gradientView: GradientLayer!
-    
     // MARK: - UI Components
     private let imageCell: UIImageView = {
         let imageView = UIImageView()
@@ -68,12 +61,6 @@ final class ImagesListCell: UITableViewCell {
         setupUI()
     }
     
-    // MARK: - IB Actions
-    
-//    @IBAction func tappedLikeButton(_ sender: Any) {
-//
-//    }
-    
     // MARK: - Private Methods
     
     private func setupUI() {
@@ -113,15 +100,14 @@ final class ImagesListCell: UITableViewCell {
         
         likeButton.addTarget(self, action: #selector(tappedLikeButton(_:)), for: .touchUpInside)
         likeButton.setTitle("", for: .normal)
+        
     }
     
+    @objc private func tappedLikeButton(_ sender: UIButton) {
+        
+    }
     
     // MARK: - Public Methods
-    
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        likeButton.setTitle("", for: .normal)
-//    }
     
     func addGradient() {
         let gradientLayer = CAGradientLayer()
@@ -147,9 +133,5 @@ final class ImagesListCell: UITableViewCell {
     func setLikeButton(isLiked: Bool) {
         let likeImage = isLiked ? UIImage(named: "Like_button_on") : UIImage(named: "like_button_off")
         likeButton.setImage(likeImage, for: .normal)
-    }
-    
-    @objc private func tappedLikeButton(_ sender: UIButton) {
-        
     }
 }
