@@ -71,14 +71,16 @@ final class ImagesListViewController: UIViewController {
         tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         tableView.separatorStyle = .none
+        tableView.backgroundColor = UIColor.clear
+        //tableView.backgroundColor = UIColor(named: "YP Black")
         
         view.addSubview(tableView)
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
@@ -101,12 +103,9 @@ extension ImagesListViewController: UITableViewDataSource {
         let imageName = photosName[indexPath.row]
         imageListCell.configCell(with: imageName, with: indexPath.row)
         imageListCell.addGradient()
+        imageListCell.backgroundColor = UIColor.clear
 
         return imageListCell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 10
     }
 }
 
@@ -128,7 +127,7 @@ extension ImagesListViewController: UITableViewDelegate {
         let imageViewWidth = tableView.bounds.width //- imageInsets.left - imageInsets.right
         let imageWidth = image.size.width
         let scale = imageViewWidth / imageWidth
-        let cellHeight = image.size.height * scale //+ imageInsets.top //+ imageInsets.bottom
+        let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         
         return cellHeight
     }

@@ -78,18 +78,18 @@ final class ImagesListCell: UITableViewCell {
     
     private func setupUI() {
         contentView.addSubview(imageCell)
+        contentView.addSubview(gradientView)
         contentView.addSubview(dateLabel)
         contentView.addSubview(likeButton)
-        contentView.addSubview(gradientView)
         
-        contentView.layer.cornerRadius = 16
-        contentView.layer.masksToBounds = true
+        imageCell.layer.cornerRadius = 16
+        imageCell.layer.masksToBounds = true
         
         NSLayoutConstraint.activate([
             imageCell.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageCell.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageCell.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            imageCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             
             dateLabel.leadingAnchor.constraint(equalTo: imageCell.leadingAnchor, constant: 8),
             dateLabel.trailingAnchor.constraint(equalTo: imageCell.trailingAnchor, constant: -16),
@@ -97,8 +97,9 @@ final class ImagesListCell: UITableViewCell {
             dateLabel.heightAnchor.constraint(equalToConstant: 20),
             
             likeButton.topAnchor.constraint(equalTo: imageCell.topAnchor),
-            likeButton.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor),
+            //likeButton.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor),
             likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            likeButton.widthAnchor.constraint(equalToConstant: 40),
             likeButton.heightAnchor.constraint(equalToConstant: 40),
             
             gradientView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -139,7 +140,11 @@ final class ImagesListCell: UITableViewCell {
         imageCell.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.text = dateFormatter.string(from: Date())
         
-        let isLiked = index % 2 == 0
+        let isImageLiked = index % 2 == 0
+        setLikeButton(isLiked: isImageLiked)
+    }
+    
+    func setLikeButton(isLiked: Bool) {
         let likeImage = isLiked ? UIImage(named: "Like_button_on") : UIImage(named: "like_button_off")
         likeButton.setImage(likeImage, for: .normal)
     }
