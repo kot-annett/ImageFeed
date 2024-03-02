@@ -12,11 +12,50 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - IB Outlets
     
-    private var userPhoto: UIImageView!
-    private var userNameLabel: UILabel!
-    private var loginNameLabel: UILabel!
-    private var descriptionLabel: UILabel!
-    private var logOutButton: UIButton!
+    private let userPhoto: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private var userNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Екатерина Новикова"
+        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 23.0)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let loginNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "@ekaterina_nov"
+        label.textColor = .gray
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Hello world!"
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let logOutButton: UIButton = {
+        let button = UIButton(type: .system)
+        if let exitImageButton = UIImage(named: "exitButton") {
+            button.setImage(exitImageButton, for: .normal)
+        }
+        button.tintColor = UIColor(named: "YP Red")
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     // MARK: - Properties
     
@@ -53,44 +92,16 @@ final class ProfileViewController: UIViewController {
     // MARK: - IB Actions
     
     @objc func logOutButtonTapped() {
+    //TODO: - настроить кнопку выхода
     }
     
     // MARK: - Public Methods
     
     private func addSubviews() {
-        let profileImage = UIImage(named: "placeholder")
-        userPhoto = UIImageView(image: profileImage)
-        userPhoto.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(userPhoto)
-        
-        userNameLabel = UILabel()
-        userNameLabel.text = "Екатерина Новикова"
-        userNameLabel.textColor = .white
-        userNameLabel.font = UIFont.boldSystemFont(ofSize: 23.0)
-        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(userNameLabel)
-        
-        loginNameLabel = UILabel()
-        loginNameLabel.text = "@ekaterina_nov"
-        loginNameLabel.textColor = .gray
-        loginNameLabel.font = UIFont.systemFont(ofSize: 13)
-        loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginNameLabel)
-        
-        descriptionLabel = UILabel()
-        descriptionLabel.text = "Hello world!"
-        descriptionLabel.textColor = .white
-        descriptionLabel.font = UIFont.systemFont(ofSize: 13)
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descriptionLabel)
-        
-        logOutButton = UIButton.systemButton(
-            with: UIImage(named: "exitButton")!,
-            target: self,
-            action: #selector(Self.logOutButtonTapped)
-        )
-        logOutButton.tintColor = UIColor(named: "YP Red")
-        logOutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logOutButton)
     }
     
@@ -120,7 +131,7 @@ final class ProfileViewController: UIViewController {
         let cache = ImageCache.default
         cache.clearDiskCache()
         let processor = RoundCornerImageProcessor(cornerRadius: 42)
-        userPhoto?.kf.setImage(with: url,
+        userPhoto.kf.setImage(with: url,
                               placeholder: UIImage(named: "placeholder"),
                               options: [.processor(processor), .transition(.fade(1))],
                               progressBlock: nil) { result in

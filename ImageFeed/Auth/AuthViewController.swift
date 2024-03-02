@@ -40,17 +40,13 @@ final class AuthViewController: UIViewController, AuthViewControllerDelegate {
     }
     
     @objc func logInButtonTapped() {
-//        let authViewController = AuthViewController()
-//        authViewController.delegate = self
-//        authViewController.modalPresentationStyle = .fullScreen
-//        present(authViewController, animated: true, completion: nil)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let webViewViewController = storyboard.instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController {
-            webViewViewController.delegate = self
-            present(webViewViewController, animated: true, completion: nil)
+        guard let webViewViewController = storyboard.instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController else {
+            showErrorAlert()
+            return
         }
-        //performSegue(withIdentifier: "ShowWebView", sender: nil)
-        showErrorAlert()
+        webViewViewController.delegate = self
+        present(webViewViewController, animated: true, completion: nil)
     }
     
     func addSubviews() {

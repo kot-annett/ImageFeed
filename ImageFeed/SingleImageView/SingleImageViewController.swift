@@ -15,12 +15,7 @@ final class SingleImageViewController: UIViewController {
             rescaleAndCenterImageInScrollView(image: image)
         }
     }
-//
-//    @IBOutlet weak var scrollView: UIScrollView!
-//    @IBOutlet weak var backButton: UIButton!
-//    @IBOutlet weak var singleImage: UIImageView!
-    
-    //var image: UIImage!
+
     var scrollView: UIScrollView!
     var backButton: UIButton!
     var singleImage: UIImageView!
@@ -40,7 +35,6 @@ final class SingleImageViewController: UIViewController {
         singleImage.translatesAutoresizingMaskIntoConstraints = false
         singleImage.contentMode = .scaleAspectFit
         scrollView.addSubview(singleImage)
-//        singleImage.image = image
         
         backButton = UIButton(type: .system)
         backButton.setImage(UIImage(named: "Backward"), for: .normal)
@@ -67,26 +61,19 @@ final class SingleImageViewController: UIViewController {
             backButton.heightAnchor.constraint(equalToConstant: 24)
             ])
     }
-    
-//    @IBAction func backButtonDidTap(_ sender: Any) {
-//        dismiss(animated: true, completion: nil)
-//    }
-    
+ 
     @objc func backButtonDidTap(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
     
     @objc func shareButtonDidTap(_ sender: UIButton) {
+        //let image = UIImage(named: image) ?? UIImage()
             let share = UIActivityViewController(
                 activityItems: [image],
                 applicationActivities: nil
             )
-        share.completionWithItemsHandler = { [weak self] activityType, completed, returnedItems, error in
-            if completed {
-                self?.dismiss(animated: true, completion: nil)
-            }
-        }
-            present(share, animated: true, completion: nil)
+        share.popoverPresentationController?.sourceView = self.view
+        self.present(share, animated: true, completion: nil)
     }
     
     private func setupUI() {

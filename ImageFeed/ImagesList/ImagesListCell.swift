@@ -13,25 +13,21 @@ final class ImagesListCell: UITableViewCell {
     // MARK: - UI Components
     private let imageCell: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let likeButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private let gradientView: GradientLayer = {
         let gradientView = GradientLayer()
-        gradientView.translatesAutoresizingMaskIntoConstraints = false
         return gradientView
     }()
     
@@ -64,11 +60,16 @@ final class ImagesListCell: UITableViewCell {
     // MARK: - Private Methods
     
     private func setupUI() {
-        contentView.addSubview(imageCell)
-        contentView.addSubview(gradientView)
-        contentView.addSubview(dateLabel)
-        contentView.addSubview(likeButton)
-        
+        [
+            imageCell,
+            gradientView,
+            dateLabel,
+            likeButton
+        ].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            contentView.addSubview($0)
+        }
+
         imageCell.layer.cornerRadius = 16
         imageCell.layer.masksToBounds = true
         
@@ -84,7 +85,6 @@ final class ImagesListCell: UITableViewCell {
             dateLabel.heightAnchor.constraint(equalToConstant: 20),
             
             likeButton.topAnchor.constraint(equalTo: imageCell.topAnchor),
-            //likeButton.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor),
             likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             likeButton.widthAnchor.constraint(equalToConstant: 40),
             likeButton.heightAnchor.constraint(equalToConstant: 40),
@@ -104,7 +104,7 @@ final class ImagesListCell: UITableViewCell {
     }
     
     @objc private func tappedLikeButton(_ sender: UIButton) {
-        
+        // TODO: - Добавить логику нажатия на лайк
     }
     
     // MARK: - Public Methods

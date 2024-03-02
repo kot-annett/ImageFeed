@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             name: "Main",
             sessionRole: connectingSceneSession.role
         )
-        sceneConfiguration.delegateClass = SceneDelegate.self
+        //sceneConfiguration.delegateClass = SceneDelegate.self
         return sceneConfiguration
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.

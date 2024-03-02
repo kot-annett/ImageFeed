@@ -40,7 +40,6 @@ final class SplashViewController: UIViewController {
         if let token = OAuth2TokenStorage().token {
             fetchProfile(token: token)
         } else {
-            //performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
             let authViewController = AuthViewController()
             authViewController.modalPresentationStyle = .fullScreen
             authViewController.delegate = self
@@ -71,10 +70,6 @@ extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()
         fetchOAuthToken(code)
-//        dismiss(animated: true) { [weak self] in
-//            guard let self = self else { return }
-//            self.fetchOAuthToken(code)
-//        }
     }
     
     func didAuthenticate(_ vc: AuthViewController) {
@@ -120,20 +115,3 @@ extension SplashViewController: AuthViewControllerDelegate {
         }
     }
 }
-
-//extension SplashViewController {
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == showAuthenticationScreenSegueIdentifier {
-//            guard
-//                let navigationController = segue.destination as? UINavigationController,
-//                let viewController = navigationController.viewControllers[0] as? AuthViewController
-//            else {
-//                assertionFailure("Failed to prepare for \(showAuthenticationScreenSegueIdentifier)")
-//                return
-//            }
-//            viewController.delegate = self
-//        } else {
-//            super.prepare(for: segue, sender: sender)
-//        }
-//    }
-//}
