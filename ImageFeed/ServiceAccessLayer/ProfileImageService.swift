@@ -10,18 +10,6 @@ import UIKit
 
 final class ProfileImageService {
     
-    struct UserResult: Codable {
-        let profileImage: ProfileImage
-        
-        enum CodingKeys: String, CodingKey {
-            case profileImage = "profile_image"
-        }
-    }
-
-    struct ProfileImage: Codable {
-        let small: String?
-    }
-    
     static let shared = ProfileImageService()
     private init() {}
     
@@ -65,9 +53,6 @@ final class ProfileImageService {
                 } else {
                     print("Profile image URL is nil")
                 }
-                
-                print("Profile image URL: \(userResult.profileImage)")
-                print("Profile image URL: \(self.avatarURL ?? "URL is nil")")
                 
             case .failure(let error):
                 print("[fetchProfileImageURL]: \(error)")

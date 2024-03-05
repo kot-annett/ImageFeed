@@ -31,7 +31,12 @@ final class TabBarController: UITabBarController {
         )]
     }
     
-    private func generateVC(viewController: UIViewController, title: String, image: UIImage?, selectedImage: UIImage?) -> UIViewController {
+    private func generateVC(
+        viewController: UIViewController,
+        title: String,
+        image: UIImage?,
+        selectedImage: UIImage?
+    ) -> UIViewController {
         viewController.tabBarItem.title = title
         viewController.tabBarItem.image = image?.withRenderingMode(.alwaysOriginal)
         viewController.tabBarItem.selectedImage = selectedImage?.withRenderingMode(.alwaysOriginal)

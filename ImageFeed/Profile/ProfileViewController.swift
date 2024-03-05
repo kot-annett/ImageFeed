@@ -16,7 +16,6 @@ final class ProfileViewController: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -25,7 +24,6 @@ final class ProfileViewController: UIViewController {
         label.text = "Екатерина Новикова"
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 23.0)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -34,7 +32,6 @@ final class ProfileViewController: UIViewController {
         label.text = "@ekaterina_nov"
         label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: 13)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -43,7 +40,6 @@ final class ProfileViewController: UIViewController {
         label.text = "Hello world!"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 13)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -53,13 +49,12 @@ final class ProfileViewController: UIViewController {
             button.setImage(exitImageButton, for: .normal)
         }
         button.tintColor = UIColor(named: "YP Red")
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     // MARK: - Properties
     
-    let profileService = ProfileService.shared
+    private let profileService = ProfileService.shared
     private var profileImageServiceObserver : NSObjectProtocol?
     
     // MARK: - UIStatusBarStyle
@@ -83,7 +78,6 @@ final class ProfileViewController: UIViewController {
                 self.updateAvatar()
             }
         updateAvatar()
-        
         addSubviews()
         configurateConstraints()
         updateProfileDetails()
@@ -98,11 +92,16 @@ final class ProfileViewController: UIViewController {
     // MARK: - Public Methods
     
     private func addSubviews() {
-        view.addSubview(userPhoto)
-        view.addSubview(userNameLabel)
-        view.addSubview(loginNameLabel)
-        view.addSubview(descriptionLabel)
-        view.addSubview(logOutButton)
+        [
+            userPhoto,
+            userNameLabel,
+            loginNameLabel,
+            descriptionLabel,
+            logOutButton
+        ].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
+        }
     }
     
     private func configurateConstraints() {
@@ -144,8 +143,9 @@ final class ProfileViewController: UIViewController {
         }
     }
     
-    private func updateProfileDetails() {
+    func updateProfileDetails() {
         guard let profile = profileService.profile else { return }
+        //updateProfileDetails()
         
         userNameLabel.text = profile.name
         loginNameLabel.text = profile.loginName

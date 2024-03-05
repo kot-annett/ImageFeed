@@ -24,27 +24,18 @@ final class SplashViewController: UIViewController {
     
     private let profileService = ProfileService.shared
     
+    //weak var profileDelegate: ProfileUpdateDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(logoImageView)
-        NSLayoutConstraint.activate([
-            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        configurateConstraints()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if let token = OAuth2TokenStorage().token {
-            fetchProfile(token: token)
-        } else {
-            let authViewController = AuthViewController()
-            authViewController.modalPresentationStyle = .fullScreen
-            authViewController.delegate = self
-            present(authViewController, animated: true, completion: nil)
-        }
+        configureViewDidAppear()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,6 +54,24 @@ final class SplashViewController: UIViewController {
             .instantiateViewController(withIdentifier: "TabBarViewController")
         
         window.rootViewController = tabBarController
+    }
+    
+    private func configurateConstraints() {
+        NSLayoutConstraint.activate([
+            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
+    private func configureViewDidAppear() {
+        if let token = OAuth2TokenStorage().token {
+            fetchProfile(token: token)
+        } else {
+            let authViewController = AuthViewController()
+            authViewController.modalPresentationStyle = .fullScreen
+            authViewController.delegate = self
+            present(authViewController, animated: true, completion: nil)
+        }
     }
 }
 
@@ -105,6 +114,8 @@ extension SplashViewController: AuthViewControllerDelegate {
                 switch result {
                 case .success(let profile):
                     ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { _ in }
+                    //self.profileDelegate?.updateProfileDetails(with: profile)
+                    //self.updateProfileDetails()
                     self.profileService.profile = profile
             
                     self.switchToTabBarController()
