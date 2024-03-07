@@ -145,7 +145,6 @@ final class ProfileViewController: UIViewController {
     
     func updateProfileDetails() {
         guard let profile = profileService.profile else { return }
-        //updateProfileDetails()
         
         userNameLabel.text = profile.name
         loginNameLabel.text = profile.loginName

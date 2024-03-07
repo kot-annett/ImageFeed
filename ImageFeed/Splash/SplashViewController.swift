@@ -24,8 +24,6 @@ final class SplashViewController: UIViewController {
     
     private let profileService = ProfileService.shared
     
-    //weak var profileDelegate: ProfileUpdateDelegate?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -114,8 +112,6 @@ extension SplashViewController: AuthViewControllerDelegate {
                 switch result {
                 case .success(let profile):
                     ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { _ in }
-                    //self.profileDelegate?.updateProfileDetails(with: profile)
-                    //self.updateProfileDetails()
                     self.profileService.profile = profile
             
                     self.switchToTabBarController()
