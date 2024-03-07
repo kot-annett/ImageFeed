@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -42,6 +42,13 @@
                                         <rect key="frame" x="0.0" y="314" width="414" height="268"/>
                                     </imageView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="1PG-Qg-b4q" secondAttribute="trailing" id="GdV-Vo-sl8"/>
+                                    <constraint firstItem="1PG-Qg-b4q" firstAttribute="centerX" secondItem="l1z-gl-Rcg" secondAttribute="centerX" id="KPj-fy-AvA"/>
+                                    <constraint firstItem="1PG-Qg-b4q" firstAttribute="centerY" secondItem="l1z-gl-Rcg" secondAttribute="centerY" id="Y9e-cA-Mk6"/>
+                                    <constraint firstAttribute="bottom" secondItem="1PG-Qg-b4q" secondAttribute="bottom" constant="314" id="oiZ-8O-Au1"/>
+                                    <constraint firstItem="1PG-Qg-b4q" firstAttribute="top" secondItem="l1z-gl-Rcg" secondAttribute="top" constant="314" id="ub9-cl-2K5"/>
+                                </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="O9h-dY-62Y"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="NWH-bX-cbe"/>
                                 <connections>
@@ -58,7 +65,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kpX-JY-ya4">
-                                <rect key="frame" x="0.0" y="48" width="48" height="48"/>
+                                <rect key="frame" x="0.0" y="52" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="MWN-CQ-JvV"/>
                                     <constraint firstAttribute="height" constant="48" id="UP7-dd-bNe"/>
@@ -77,15 +84,10 @@
                             <constraint firstItem="1PG-Qg-b4q" firstAttribute="leading" secondItem="PDR-bM-fo4" secondAttribute="leading" id="3aG-hs-S6a"/>
                             <constraint firstItem="l1z-gl-Rcg" firstAttribute="trailing" secondItem="pmG-RL-Bck" secondAttribute="trailing" id="9Ip-AB-qjw"/>
                             <constraint firstAttribute="bottom" secondItem="U6g-fm-Czq" secondAttribute="bottom" constant="46" id="9wf-KL-YcU"/>
-                            <constraint firstItem="l1z-gl-Rcg" firstAttribute="trailing" secondItem="1PG-Qg-b4q" secondAttribute="trailing" id="GdV-Vo-sl8"/>
-                            <constraint firstItem="1PG-Qg-b4q" firstAttribute="centerX" secondItem="l1z-gl-Rcg" secondAttribute="centerX" id="KPj-fy-AvA"/>
                             <constraint firstAttribute="bottom" secondItem="l1z-gl-Rcg" secondAttribute="bottom" id="MZi-Mx-MgA"/>
                             <constraint firstItem="kpX-JY-ya4" firstAttribute="leading" secondItem="pmG-RL-Bck" secondAttribute="leading" id="Rr3-1T-270"/>
                             <constraint firstItem="l1z-gl-Rcg" firstAttribute="top" secondItem="pmG-RL-Bck" secondAttribute="top" id="XLC-9J-bec"/>
-                            <constraint firstItem="1PG-Qg-b4q" firstAttribute="centerY" secondItem="l1z-gl-Rcg" secondAttribute="centerY" id="Y9e-cA-Mk6"/>
                             <constraint firstItem="l1z-gl-Rcg" firstAttribute="leading" secondItem="pmG-RL-Bck" secondAttribute="leading" id="bcr-yT-AOA"/>
-                            <constraint firstItem="l1z-gl-Rcg" firstAttribute="bottom" secondItem="1PG-Qg-b4q" secondAttribute="bottom" constant="314" id="oiZ-8O-Au1"/>
-                            <constraint firstItem="1PG-Qg-b4q" firstAttribute="top" secondItem="l1z-gl-Rcg" secondAttribute="top" constant="314" id="ub9-cl-2K5"/>
                             <constraint firstItem="U6g-fm-Czq" firstAttribute="centerX" secondItem="PDR-bM-fo4" secondAttribute="centerX" id="yrD-vO-Z7S"/>
                             <constraint firstItem="kpX-JY-ya4" firstAttribute="top" secondItem="PDR-bM-fo4" secondAttribute="top" constant="4" id="zTs-pE-vuI"/>
                         </constraints>
@@ -123,7 +125,7 @@
         <!--Web View View Controller-->
         <scene sceneID="Rzz-UC-yVg">
             <objects>
-                <viewController storyboardIdentifier="WebViewViewController" id="va2-Kg-FNs" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" modalPresentationStyle="fullScreen" id="va2-Kg-FNs" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YXA-Bu-B0n">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -137,7 +139,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SdY-Nr-Rbb" userLabel="nav_back_button">
-                                <rect key="frame" x="0.0" y="44" width="48" height="48"/>
+                                <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="htx-ad-8SA"/>
                                     <constraint firstAttribute="height" constant="48" id="s8N-ex-H9O"/>
@@ -150,7 +152,7 @@
                                 </connections>
                             </button>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="se3-Wn-KVU">
-                                <rect key="frame" x="0.0" y="88" width="414" height="4"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="4"/>
                                 <color key="progressTintColor" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                             </progressView>
                         </subviews>
@@ -184,7 +186,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="A8J-tm-VZY" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="zxT-nx-aUa">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
