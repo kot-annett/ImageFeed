@@ -22,7 +22,6 @@ final class ImagesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("ImagesListViewController: viewDidLoad() called")
         setupTableView()
         view.backgroundColor = UIColor(named: "YP Black")
     }

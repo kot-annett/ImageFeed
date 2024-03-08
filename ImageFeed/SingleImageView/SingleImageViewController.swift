@@ -8,58 +8,61 @@
 import UIKit
 
 final class SingleImageViewController: UIViewController {
-    var image: UIImage! {
+    var image: UIImage? {
         didSet {
             guard isViewLoaded else { return }
             singleImage.image = image
-            rescaleAndCenterImageInScrollView(image: image)
+            if let unwrappedImage = image {
+                rescaleAndCenterImageInScrollView(image: unwrappedImage)
+            }
         }
     }
 
-    var scrollView: UIScrollView!
-    var backButton: UIButton!
-    var singleImage: UIImageView!
-    var shareButton: UIButton!
+    private let singleImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.minimumZoomScale = 0.1
+        scrollView.maximumZoomScale = 1.25
+        return scrollView
+    }()
+    
+    private let backButton: UIButton = {
+            let button = UIButton(type: .system)
+            button.setImage(UIImage(named: "Backward"), for: .normal)
+            button.tintColor = UIColor.white
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.setTitle("", for: .normal)
+            button.addTarget(
+                self,
+                action: #selector(backButtonDidTap(_:)),
+                for: .touchUpInside
+            )
+            return button
+        }()
+    
+    private let shareButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "ButtonSharing"), for: .normal)
+        button.addTarget(
+            self,
+            action: #selector(shareButtonDidTap(_:)), for: .touchUpInside
+        )
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.minimumZoomScale = 0.1
-        scrollView.maximumZoomScale = 1.25
         scrollView.delegate = self
-        view.addSubview(scrollView)
-        
-        singleImage = UIImageView(image: image)
-        singleImage.translatesAutoresizingMaskIntoConstraints = false
-        singleImage.contentMode = .scaleAspectFit
-        scrollView.addSubview(singleImage)
-        
-        backButton = UIButton(type: .system)
-        backButton.setImage(UIImage(named: "Backward"), for: .normal)
-        backButton.tintColor = UIColor.white
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.setTitle("", for: .normal)
-        backButton.addTarget(self, action: #selector(backButtonDidTap(_:)), for: .touchUpInside)
-        view.addSubview(backButton)
-        
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            singleImage.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            singleImage.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
-            singleImage.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            singleImage.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
-            
-            backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 55),
-            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            backButton.widthAnchor.constraint(equalToConstant: 24),
-            backButton.heightAnchor.constraint(equalToConstant: 24)
-            ])
+        singleImage.image = image
     }
  
     @objc func backButtonDidTap(_ sender: UIButton) {
@@ -77,13 +80,27 @@ final class SingleImageViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = UIColor(named: "YP Black")
-        
-        shareButton = UIButton(type: .custom)
-        shareButton.setImage(UIImage(named: "ButtonSharing"), for: .normal)
-        shareButton.addTarget(self, action: #selector(shareButtonDidTap(_:)), for: .touchUpInside)
         view.addSubview(shareButton)
-        shareButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        scrollView.addSubview(singleImage)
+        view.addSubview(backButton)
+        
         NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            singleImage.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            singleImage.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
+            singleImage.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            singleImage.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
+            
+            backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 55),
+            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            backButton.widthAnchor.constraint(equalToConstant: 24),
+            backButton.heightAnchor.constraint(equalToConstant: 24),
+            
             shareButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             shareButton.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -50),
             shareButton.widthAnchor.constraint(equalToConstant: 50),
