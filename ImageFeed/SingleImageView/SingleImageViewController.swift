@@ -34,25 +34,25 @@ final class SingleImageViewController: UIViewController {
     }()
     
     private let backButton: UIButton = {
-            let button = UIButton(type: .system)
-            button.setImage(UIImage(named: "Backward"), for: .normal)
-            button.tintColor = UIColor.white
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.setTitle("", for: .normal)
-            button.addTarget(
-                self,
-                action: #selector(backButtonDidTap(_:)),
-                for: .touchUpInside
-            )
-            return button
-        }()
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "Backward"), for: .normal)
+        button.tintColor = UIColor.white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("", for: .normal)
+        button.addTarget(
+            self,
+            action: #selector(backButtonDidTap(_:)),
+            for: .touchUpInside
+        )
+        return button
+    }()
     
     private let shareButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "ButtonSharing"), for: .normal)
         button.addTarget(
             self,
-            action: #selector(shareButtonDidTap(_:)), for: .touchUpInside
+            action: #selector(shareButtonDidTap), for: .touchUpInside
         )
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -71,7 +71,7 @@ final class SingleImageViewController: UIViewController {
     
     @objc func shareButtonDidTap(_ sender: UIButton) {
             let share = UIActivityViewController(
-                activityItems: [image],
+                activityItems: [singleImage.image ?? UIImage()],
                 applicationActivities: nil
             )
         share.popoverPresentationController?.sourceView = self.view
@@ -80,8 +80,8 @@ final class SingleImageViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = UIColor(named: "YP Black")
-        view.addSubview(shareButton)
         view.addSubview(scrollView)
+        view.addSubview(shareButton)
         scrollView.addSubview(singleImage)
         view.addSubview(backButton)
         

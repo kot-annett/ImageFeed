@@ -24,6 +24,7 @@ final class ImagesListViewController: UIViewController {
         super.viewDidLoad()
         setupTableView()
         view.backgroundColor = UIColor(named: "YP Black")
+        navigationController?.navigationBar.barTintColor = UIColor(named: "YP Black")
     }
     
     // MARK: - Private methods
@@ -41,8 +42,8 @@ final class ImagesListViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
@@ -63,6 +64,7 @@ extension ImagesListViewController: UITableViewDataSource {
         }
 
         let imageName = photosName[indexPath.row]
+        imageListCell.selectionStyle = .none
         imageListCell.configCell(with: imageName, with: indexPath.row)
         imageListCell.addGradient()
         imageListCell.backgroundColor = UIColor.clear
@@ -96,7 +98,7 @@ extension ImagesListViewController: UITableViewDelegate {
         let imageViewWidth = tableView.bounds.width
         let imageWidth = image.size.width
         let scale = imageViewWidth / imageWidth
-        let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
+        let cellHeight = image.size.height * scale //+ imageInsets.top + imageInsets.bottom
         
         return cellHeight
     }
