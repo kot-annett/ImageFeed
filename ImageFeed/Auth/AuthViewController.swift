@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import ProgressHUD
 
-final class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController, AuthViewControllerDelegate {
     
     private let showWebViewSegueIdentifier = "ShowWebView"
     
@@ -38,8 +39,14 @@ final class AuthViewController: UIViewController {
         configureConstraints()
     }
     
-    @IBAction private func logInButtonTapped() {
-        performSegue(withIdentifier: "ShowWebView", sender: nil)
+    @objc func logInButtonTapped() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let webViewViewController = storyboard.instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController else {
+            showErrorAlert()
+            return
+        }
+        webViewViewController.delegate = self
+        present(webViewViewController, animated: true, completion: nil)
     }
     
     func addSubviews() {
@@ -60,6 +67,21 @@ final class AuthViewController: UIViewController {
             logInButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
             logInButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+    }
+    
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        dismiss(animated: true)
+    }
+    
+    private func showErrorAlert() {
+        let alertController = UIAlertController(
+            title: "Что-то пошло не так",
+            message: "Не удалось войти в систему",
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

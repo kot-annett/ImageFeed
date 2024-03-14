@@ -8,11 +8,9 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
-
-    @IBOutlet private weak var tableView: UITableView!
     
+    private let tableView = UITableView()
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
-    private let ShowSingleImageSequeIdentifier = "ShowSingleImage"
     
     // MARK: - UIStatusBarStyle
     
@@ -24,21 +22,30 @@ final class ImagesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        setupTableView()
+        view.backgroundColor = UIColor(named: "YP Black")
+        navigationController?.navigationBar.barTintColor = UIColor(named: "YP Black")
     }
     
-    // MARK: - Public methods
-
-    override func prepare(for seque: UIStoryboardSegue, sender: Any?) {
-        if seque.identifier == ShowSingleImageSequeIdentifier {
-            let viewController = seque.destination as! SingleImageViewController
-            let indexPath = sender as! IndexPath
-            let image = UIImage(named: photosName[indexPath.row])
-            viewController.image = image
-        } else {
-            super.prepare(for: seque, sender: sender)
-        }
+    // MARK: - Private methods
+    
+    private func setupTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
+        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = UIColor.clear
+        
+        view.addSubview(tableView)
+        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }
 
@@ -55,10 +62,12 @@ extension ImagesListViewController: UITableViewDataSource {
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
-        
+
         let imageName = photosName[indexPath.row]
+        imageListCell.selectionStyle = .none
         imageListCell.configCell(with: imageName, with: indexPath.row)
         imageListCell.addGradient()
+        imageListCell.backgroundColor = UIColor.clear
 
         return imageListCell
     }
@@ -68,7 +77,14 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: ShowSingleImageSequeIdentifier, sender: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
+        let singleImageVC = SingleImageViewController()
+        singleImageVC.modalPresentationStyle = .fullScreen
+        singleImageVC.modalTransitionStyle = .coverVertical
+        
+        let imageName = photosName[indexPath.row]
+        singleImageVC.image = UIImage(named: imageName)
+        present(singleImageVC, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -79,10 +95,10 @@ extension ImagesListViewController: UITableViewDelegate {
         }
         
         let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
-        let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
+        let imageViewWidth = tableView.bounds.width
         let imageWidth = image.size.width
         let scale = imageViewWidth / imageWidth
-        let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
+        let cellHeight = image.size.height * scale //+ imageInsets.top + imageInsets.bottom
         
         return cellHeight
     }
