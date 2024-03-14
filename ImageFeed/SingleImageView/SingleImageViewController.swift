@@ -27,7 +27,6 @@ final class SingleImageViewController: UIViewController {
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         return scrollView
@@ -37,7 +36,6 @@ final class SingleImageViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "Backward"), for: .normal)
         button.tintColor = UIColor.white
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("", for: .normal)
         button.addTarget(
             self,
@@ -54,7 +52,6 @@ final class SingleImageViewController: UIViewController {
             self,
             action: #selector(shareButtonDidTap), for: .touchUpInside
         )
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -80,10 +77,13 @@ final class SingleImageViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = UIColor(named: "YP Black")
-        view.addSubview(scrollView)
-        view.addSubview(shareButton)
+        [scrollView,
+         shareButton,
+         backButton].forEach{
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
+        }
         scrollView.addSubview(singleImage)
-        view.addSubview(backButton)
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -106,7 +106,6 @@ final class SingleImageViewController: UIViewController {
             shareButton.widthAnchor.constraint(equalToConstant: 50),
             shareButton.heightAnchor.constraint(equalToConstant: 50)
         ])
-        
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
