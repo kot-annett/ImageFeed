@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ImagesListViewController: UIViewController {
     
     private let tableView = UITableView()
-    private let photosName: [String] = Array(0..<20).map{ "\($0)" }
+    
+    var photos: [Photo] = []
+    private var imagesListServices = ImagesListService()
     
     // MARK: - UIStatusBarStyle
     
@@ -22,12 +25,26 @@ final class ImagesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         setupTableView()
-        view.backgroundColor = UIColor(named: "YP Black")
-        navigationController?.navigationBar.barTintColor = UIColor(named: "YP Black")
+        configureNotificationObserver()
+        fetchInitialPhotos()
     }
     
     // MARK: - Private methods
+    
+    private func configureNotificationObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateTableViewAnimated),
+            name: ImagesListService.didChangeNotification,
+            object: nil
+        )}
+    
+    private func setupUI() {
+        view.backgroundColor = UIColor(named: "YP Black")
+        navigationController?.navigationBar.barTintColor = UIColor(named: "YP Black")
+    }
     
     private func setupTableView() {
         tableView.dataSource = self
@@ -47,25 +64,59 @@ final class ImagesListViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    private func fetchInitialPhotos() {
+        guard let token = OAuth2TokenStorage().token else {
+            print("No token available")
+            return
+        }
+        imagesListServices.fetchPhotosNextPage(token) { result in
+            switch result {
+            case .success(let newPhotos):
+                print("Fetched initial photos successfully: \(newPhotos)")
+            case .failure(let error):
+                print("Failed to fetch initial photos: \(error)")
+            }
+        }
+    }
+    
+    @objc func updateTableViewAnimated() {
+        let oldCount = photos.count
+        let newCount = imagesListServices.photos.count
+        photos = imagesListServices.photos
+        if oldCount != newCount {
+            tableView.performBatchUpdates {
+                let indexPaths = (oldCount..<newCount).map { i in //todo
+                    IndexPath(row: i, section: 0)
+                }
+                tableView.insertRows(at: indexPaths, with: .automatic)
+            } completion: { _ in }
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photosName.count
+        //return photosName.count
+        return photos.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: ImagesListCell.reuseIdentifier,
+            for: indexPath
+        )
         
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
 
-        let imageName = photosName[indexPath.row]
+        let photo = photos[indexPath.row]
         imageListCell.selectionStyle = .none
-        imageListCell.configCell(with: imageName, with: indexPath.row)
+        imageListCell.configCell(for: photo)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
         imageListCell.addGradient()
         imageListCell.backgroundColor = UIColor.clear
 
@@ -76,30 +127,32 @@ extension ImagesListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 
 extension ImagesListViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            guard let token = OAuth2TokenStorage().token else {
+                print("No token available")
+                return
+            }
+            imagesListServices.fetchPhotosNextPage(token) { result in
+                switch result {
+                case .success(let newPhotos):
+                    print("Fetched next page successfully: \(newPhotos)")
+                case .failure(let error):
+                    print("Failed to fetch next page: \(error)")
+                }
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let singleImageVC = SingleImageViewController()
         singleImageVC.modalPresentationStyle = .fullScreen
         singleImageVC.modalTransitionStyle = .coverVertical
         
-        let imageName = photosName[indexPath.row]
-        singleImageVC.image = UIImage(named: imageName)
+        let photo = photos[indexPath.row]
+        singleImageVC.imageURL = URL(string: photo.largeImageURL)
         present(singleImageVC, animated: true, completion: nil)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let imageName = photosName[indexPath.row]
-        
-        guard let image = UIImage(named: imageName) else {
-            return 0
-        }
-        
-        let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
-        let imageViewWidth = tableView.bounds.width
-        let imageWidth = image.size.width
-        let scale = imageViewWidth / imageWidth
-        let cellHeight = image.size.height * scale //+ imageInsets.top + imageInsets.bottom
-        
-        return cellHeight
     }
 }

@@ -7,8 +7,11 @@
 
 import Foundation
 import UIKit
+import Kingfisher
 
 final class ImagesListCell: UITableViewCell {
+    
+    var imageLoadTask: DownloadTask?
     
     // MARK: - UI Components
     private let imageCell: UIImageView = {
@@ -98,13 +101,18 @@ final class ImagesListCell: UITableViewCell {
             gradientView.bottomAnchor.constraint(equalTo: imageCell.bottomAnchor)
         ])
         
-        //dateLabel.font = UIFont(name: "SFPro-Medium", size: 13)
         dateLabel.font = UIFont.systemFont(ofSize: 13)
         dateLabel.textColor = .white
         
         likeButton.addTarget(self, action: #selector(tappedLikeButton(_:)), for: .touchUpInside)
         likeButton.setTitle("", for: .normal)
         
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageLoadTask?.cancel()
+        imageCell.image = nil
     }
     
     @objc private func tappedLikeButton(_ sender: UIButton) {
@@ -121,14 +129,35 @@ final class ImagesListCell: UITableViewCell {
         gradientView.layer.addSublayer(gradientLayer)
     }
     
-    func configCell(with imageName: String, with index: Int) {
-        guard let image = UIImage(named: imageName) else { return }
+    func configCell(for photo: Photo) {
+        imageCell.image = nil
         
-        imageCell.image = image
-        dateLabel.text = dateFormatter.string(from: Date())
+        if let url = URL(string: photo.thumbImageURL) {
+            imageCell.kf.indicatorType = .activity
+            imageCell.kf.setImage(
+                with: url,
+                placeholder: UIImage(named: "placeholder_image"),
+                options: []) { [weak self] result in
+                    guard let self = self else { return }
+                    switch result {
+                    case .success:
+                        DispatchQueue.main.async {
+                            self.imageCell.kf.indicator?.stopAnimatingView()
+                            self.imageCell.kf.indicatorType = .none
+                        }
+                    case .failure(let error):
+                        print("Failed to load image: \(error)")
+                    }
+                }
+        }
         
-        let isImageLiked = index % 2 == 0
-        setLikeButton(isLiked: isImageLiked)
+        if let createdAt = photo.createdAt {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd MMMM yyyy"
+            dateLabel.text = dateFormatter.string(from: createdAt)
+        } else {
+            dateLabel.text = "Дата неизвестна"
+        }
     }
     
     func setLikeButton(isLiked: Bool) {

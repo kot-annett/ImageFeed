@@ -8,6 +8,12 @@
 import UIKit
 
 final class SingleImageViewController: UIViewController {
+    var imageURL: URL? {
+        didSet {
+            loadImage()
+        }
+    }
+    
     var image: UIImage? {
         didSet {
             guard isViewLoaded else { return }
@@ -59,7 +65,7 @@ final class SingleImageViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         scrollView.delegate = self
-        singleImage.image = image
+        //singleImage.image = image
     }
  
     @objc func backButtonDidTap(_ sender: UIButton) {
@@ -129,5 +135,18 @@ final class SingleImageViewController: UIViewController {
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         singleImage
+    }
+    
+    private func loadImage() {
+        guard let imageURL = imageURL else { return }
+        
+        DispatchQueue.global().async { [weak self] in
+            if let imageData = try? Data(contentsOf: imageURL),
+               let image = UIImage(data: imageData) {
+                DispatchQueue.main.async {
+                    self?.image = image
+                }
+            }
+        }
     }
 }
