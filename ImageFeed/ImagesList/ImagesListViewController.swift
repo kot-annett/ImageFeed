@@ -28,7 +28,6 @@ final class ImagesListViewController: UIViewController {
         setupUI()
         setupTableView()
         configureNotificationObserver()
-        fetchInitialPhotos()
     }
     
     // MARK: - Private methods
@@ -65,21 +64,6 @@ final class ImagesListViewController: UIViewController {
         ])
     }
     
-    private func fetchInitialPhotos() {
-        guard let token = OAuth2TokenStorage().token else {
-            print("No token available")
-            return
-        }
-        imagesListServices.fetchPhotosNextPage(token) { result in
-            switch result {
-            case .success(let newPhotos):
-                print("Fetched initial photos successfully: \(newPhotos)")
-            case .failure(let error):
-                print("Failed to fetch initial photos: \(error)")
-            }
-        }
-    }
-    
     @objc func updateTableViewAnimated() {
         let oldCount = photos.count
         let newCount = imagesListServices.photos.count
@@ -99,7 +83,6 @@ final class ImagesListViewController: UIViewController {
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return photosName.count
         return photos.count
     }
 
@@ -130,18 +113,7 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-            guard let token = OAuth2TokenStorage().token else {
-                print("No token available")
-                return
-            }
-            imagesListServices.fetchPhotosNextPage(token) { result in
-                switch result {
-                case .success(let newPhotos):
-                    print("Fetched next page successfully: \(newPhotos)")
-                case .failure(let error):
-                    print("Failed to fetch next page: \(error)")
-                }
-            }
+            imagesListServices.fetchPhotosNextPage() 
         }
     }
     
