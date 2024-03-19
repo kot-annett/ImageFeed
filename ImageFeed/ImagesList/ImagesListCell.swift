@@ -14,17 +14,17 @@ final class ImagesListCell: UITableViewCell {
     var imageLoadTask: DownloadTask?
     
     // MARK: - UI Components
-    private let imageCell: UIImageView = {
+    let imageCell: UIImageView = {
         let imageView = UIImageView()
         return imageView
     }()
     
-    private let dateLabel: UILabel = {
+    let dateLabel: UILabel = {
         let label = UILabel()
         return label
     }()
     
-    private let likeButton: UIButton = {
+    let likeButton: UIButton = {
         let button = UIButton(type: .custom)
         return button
     }()

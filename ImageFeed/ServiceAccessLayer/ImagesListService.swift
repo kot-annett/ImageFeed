@@ -13,6 +13,7 @@ final class ImagesListService {
     private var lastLoadedPage: Int?
     private let urlSession: URLSession
     private var lastTask: URLSessionTask?
+    private var authTokenStorage = OAuth2TokenStorage()
     
     init() {
         urlSession = URLSession.shared
@@ -44,20 +45,31 @@ final class ImagesListService {
                             userInfo: ["Photos": self.photos]
                         )}
                 case .failure(let error):
-                print("Failed to fetch photos \(error)")
+                    print("Failed to fetch photos \(error)")
                 }
+                self.lastTask = nil
             }
         }
         lastTask?.resume()
     }
     
     func imagesListRequest(page: Int) -> URLRequest? {
+        guard let token = authTokenStorage.token else {
+            return nil
+        }
         var request = URLRequest.makeHTTPRequest(
             path: "/photos?page=\(page)",
             httpMethod: "GET",
             baseURL: defaultBaseURL
         )
-        //request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
+    }
+    
+    func dateFormatter() -> DateFormatter {
+        let date = DateFormatter()
+        date.dateStyle = .long
+        date.timeStyle = .none
+        return date
     }
 }

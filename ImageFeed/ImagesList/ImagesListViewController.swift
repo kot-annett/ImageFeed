@@ -77,6 +77,33 @@ final class ImagesListViewController: UIViewController {
             } completion: { _ in }
         }
     }
+    
+    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+        if let url = URL(string: imagesListServices.photos[indexPath.row].thumbImageURL) {
+            cell.imageCell.kf.indicatorType = .activity
+            cell.imageCell.kf.setImage(with: url,
+                                       placeholder: UIImage(named: "placeholder_image")) { [weak self] _ in
+                guard let self = self else { return }
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+            if let date = photos[indexPath.row].createdAt {
+                let dateFormatter = imagesListServices.dateFormatter()
+//                let dateFormatter = DateFormatter()
+//                dateFormatter.dateFormat = "dd MMMM yyyy"
+                cell.dateLabel.text = dateFormatter.string(from: date)
+            } else {
+                cell.dateLabel.text = "Дата неизвестна"
+            }
+            let isLiked = isLiked(indexPath: indexPath)
+            let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
+            cell.likeButton.setImage(likeImage, for: .normal)
+            cell.selectionStyle = .none
+        }
+    }
+    
+    private func isLiked(indexPath: IndexPath) -> Bool {
+        return imagesListServices.photos[indexPath.row].isLiked == false
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -98,7 +125,8 @@ extension ImagesListViewController: UITableViewDataSource {
 
         let photo = photos[indexPath.row]
         imageListCell.selectionStyle = .none
-        imageListCell.configCell(for: photo)
+        //imageListCell.configCell(for: photo)
+        configCell(for: imageListCell, with: indexPath)
         tableView.reloadRows(at: [indexPath], with: .automatic)
         imageListCell.addGradient()
         imageListCell.backgroundColor = UIColor.clear
