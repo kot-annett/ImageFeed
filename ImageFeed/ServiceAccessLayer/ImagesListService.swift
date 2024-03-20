@@ -22,12 +22,12 @@ final class ImagesListService {
     func fetchPhotosNextPage() {
         assert(Thread.isMainThread)
         guard lastTask == nil else {
-            print("Загрузка уже идет")
+            print("Loading in progress")
             return
         }
         let nextPage = (lastLoadedPage ?? 0) + 1
         guard let request = imagesListRequest(page: nextPage) else {
-            print("Ошибка формирования запроса")
+            print("Error forming request")
             return
         }
         lastTask = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
@@ -72,4 +72,66 @@ final class ImagesListService {
         date.timeStyle = .none
         return date
     }
+    
+    func changeLike(
+        photoId: String,
+        isLike: Bool,
+        _ completion: @escaping (Result<Void, Error>) -> Void) {
+            assert(Thread.isMainThread)
+            
+            guard let request = makeLikeRequest(id: photoId, isLike: isLike) else {
+                assertionFailure("Invalid request")
+                return
+            }
+            lastTask = urlSession.objectTask(for: request) { [weak self] (result: Result<LikePhotoResult, Error>) in
+                DispatchQueue.main.async {
+                    guard let self = self else { return }
+                    switch result {
+                    case .success(let photoResult):
+                        if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+                            let photo = self.photos[index]
+                            let newPhoto = Photo(
+                                id: photo.id,
+                                size: photo.size,
+                                createdAt: photo.createdAt,
+                                welcomeDescription: photo.welcomeDescription,
+                                largeImageURL: photo.thumbImageURL,
+                                thumbImageURL: photo.largeImageURL,
+                                isLiked: !photo.isLiked
+                            )
+                            self.photos[index] = newPhoto
+                        }
+                        completion(.success(()))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                    self.lastTask = nil
+                }
+            }
+            lastTask?.resume()
+        }
+    
+    private func makeLikeRequest(id: String, isLike: Bool) -> URLRequest? {
+        //guard let url = URL(string: "https://api.unsplash.com/photos/\(id)/like"),
+        guard let token = authTokenStorage.token else {
+            return nil
+        }
+        var request = URLRequest.makeHTTPRequest(
+            path: "/photos/\(id)/like",
+            httpMethod: isLike ? "POST" : "DELETE",
+            baseURL: defaultBaseURL
+        )
+        request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+//        var request = URLRequest(url: url)
+//        request.httpMethod = isLike ? "POST" : "DELETE"
+//        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
+    }
 }
+    
+//    private func withReplaced(itemAt: Int, newValue element: Photo) -> [Photo] {
+//        var photos = self.photos
+//        photos.replaceSubrange(itemAt...itemAt, with: [element])
+//        return photos
+//    }
+

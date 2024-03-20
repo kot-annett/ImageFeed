@@ -44,7 +44,7 @@ final class TabBarController: UITabBarController {
     }
     
     private func setTabBarAppearance() {
-        tabBar.tintColor = UIColor(named: "YP Black")
+        tabBar.barTintColor = UIColor(named: "YP Black")
     }
 }
 
