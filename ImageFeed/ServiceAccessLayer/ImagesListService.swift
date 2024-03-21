@@ -103,7 +103,7 @@ final class ImagesListService {
                         }
                         completion(.success(()))
                     case .failure(let error):
-                        completion(.failure(error))
+                        print("Failed to change like status: \(error)")
                     }
                     self.lastTask = nil
                 }
