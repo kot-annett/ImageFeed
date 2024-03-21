@@ -120,7 +120,8 @@ final class SingleImageViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let imageResult):
-                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+                self.singleImage.contentMode = .scaleAspectFill
+                //self.rescaleAndCenterImageInScrollView(image: imageResult.image)
             case .failure:
                 self.showError()
             }
@@ -146,20 +147,19 @@ final class SingleImageViewController: UIViewController {
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
-        let minZoomScale = scrollView.minimumZoomScale
-        let maxZoomScale = scrollView.maximumZoomScale
-        view.layoutIfNeeded()
-        let visibleRectSize = scrollView.bounds.size
         let imageSize = image.size
-        let horizontalScale = visibleRectSize.width / imageSize.width
-        let vetricalScale = visibleRectSize.height / imageSize.height
-        let scale = min(maxZoomScale, max(minZoomScale, max(horizontalScale, vetricalScale)))
-        scrollView.setZoomScale(scale, animated: false)
-        scrollView.layoutIfNeeded()
-        let newContentSize = scrollView.contentSize
-        let x = (newContentSize.width - visibleRectSize.width) / 2
-        let y = (newContentSize.height - visibleRectSize.height) / 2
-        scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
+        singleImage.frame.size = imageSize
+        scrollView.contentSize = imageSize
+        let minZoomScale = min(scrollView.bounds.size.width / imageSize.width, scrollView.bounds.size.height / imageSize.height)
+        
+        scrollView.minimumZoomScale = minZoomScale
+        scrollView.maximumZoomScale = 4.0
+        
+        scrollView.zoomScale = minZoomScale
+        
+        let xOffset = max(0, (scrollView.contentSize.width - scrollView.bounds.size.width) / 2)
+        let yOffset = max(0, (scrollView.contentSize.height - scrollView.bounds.size.height) / 2)
+        scrollView.contentOffset = CGPoint(x: xOffset, y: yOffset)
     }
 }
 

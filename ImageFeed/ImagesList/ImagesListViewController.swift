@@ -160,7 +160,7 @@ extension ImagesListViewController: UITableViewDelegate {
         singleImageVC.modalTransitionStyle = .coverVertical
         
         let photo = photos[indexPath.row]
-        singleImageVC.imageURL = URL(string: photo.largeImageURL)
+        singleImageVC.imageURL = URL(string: photos[indexPath.row].largeImageURL)
         present(singleImageVC, animated: true, completion: nil)
     }
     
