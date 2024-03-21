@@ -6,13 +6,11 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class SingleImageViewController: UIViewController {
-    var imageURL: URL? {
-        didSet {
-            loadImage()
-        }
-    }
+    
+    var imageURL: URL?
     
     var image: UIImage? {
         didSet {
@@ -64,8 +62,8 @@ final class SingleImageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        scrollView.delegate = self
-        //singleImage.image = image
+        setupScrollView()
+        setSingleImage()
     }
  
     @objc func backButtonDidTap(_ sender: UIButton) {
@@ -114,6 +112,39 @@ final class SingleImageViewController: UIViewController {
         ])
     }
     
+    func setSingleImage() {
+        UIBlockingProgressHUD.show()
+        singleImage.kf.setImage(with: imageURL) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            guard let self = self else { return }
+            switch result {
+            case .success(let imageResult):
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure:
+                self.showError()
+            }
+        }
+    }
+    
+    func setupScrollView() {
+        scrollView.delegate = self
+    }
+    
+    private func showError() {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так. Попробовать ещё раз?",
+            message: nil,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Не надо", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Повторить", style: .default, handler: { [weak self] _ in
+            guard let self else { return }
+            self.setSingleImage()
+        }))
+        present(alert, animated: true)
+    }
+    
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
@@ -136,17 +167,5 @@ extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         singleImage
     }
-    
-    private func loadImage() {
-        guard let imageURL = imageURL else { return }
-        
-        DispatchQueue.global().async { [weak self] in
-            if let imageData = try? Data(contentsOf: imageURL),
-               let image = UIImage(data: imageData) {
-                DispatchQueue.main.async {
-                    self?.image = image
-                }
-            }
-        }
-    }
 }
+

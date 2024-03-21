@@ -130,42 +130,6 @@ final class ImagesListCell: UITableViewCell {
         gradientView.layer.addSublayer(gradientLayer)
     }
     
-//    func configCell(for photo: Photo) {
-//        imageCell.image = nil
-//        
-//        if let url = URL(string: photo.thumbImageURL) {
-//            imageCell.kf.indicatorType = .activity
-//            imageCell.kf.setImage(
-//                with: url,
-//                placeholder: UIImage(named: "placeholder_image"),
-//                options: []) { [weak self] result in
-//                    guard let self = self else { return }
-//                    switch result {
-//                    case .success:
-//                        DispatchQueue.main.async {
-//                            self.imageCell.kf.indicator?.stopAnimatingView()
-//                            self.imageCell.kf.indicatorType = .none
-//                        }
-//                    case .failure(let error):
-//                        print("Failed to load image: \(error)")
-//                    }
-//                }
-//        }
-//        
-//        if let createdAt = photo.createdAt {
-//            let dateFormatter = DateFormatter()
-//            dateFormatter.dateFormat = "dd MMMM yyyy"
-//            dateLabel.text = dateFormatter.string(from: createdAt)
-//        } else {
-//            dateLabel.text = "Дата неизвестна"
-//        }
-//    }
-    
-//    func setLikeButton(isLiked: Bool) {
-//        let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
-//        likeButton.setImage(likeImage, for: .normal)
-//    }
-    
     func setIsLiked(_ isLiked: Bool) {
         let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
         likeButton.setImage(likeImage, for: .normal)

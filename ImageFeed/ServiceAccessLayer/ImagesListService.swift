@@ -67,11 +67,11 @@ final class ImagesListService {
     }
     
     func dateFormatter() -> DateFormatter {
-        let date = DateFormatter()
-        date.dateStyle = .long
-        date.timeStyle = .none
-        return date
-    }
+            let date = DateFormatter()
+            date.dateStyle = .long
+            date.timeStyle = .none
+            return date
+        }
     
     func changeLike(
         photoId: String,
@@ -111,8 +111,11 @@ final class ImagesListService {
             lastTask?.resume()
         }
     
+    func clearPhotos() {
+        photos = []
+    }
+    
     private func makeLikeRequest(id: String, isLike: Bool) -> URLRequest? {
-        //guard let url = URL(string: "https://api.unsplash.com/photos/\(id)/like"),
         guard let token = authTokenStorage.token else {
             return nil
         }
@@ -122,16 +125,8 @@ final class ImagesListService {
             baseURL: defaultBaseURL
         )
         request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-//        var request = URLRequest(url: url)
-//        request.httpMethod = isLike ? "POST" : "DELETE"
-//        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
         return request
     }
 }
-    
-//    private func withReplaced(itemAt: Int, newValue element: Photo) -> [Photo] {
-//        var photos = self.photos
-//        photos.replaceSubrange(itemAt...itemAt, with: [element])
-//        return photos
-//    }
-
+   

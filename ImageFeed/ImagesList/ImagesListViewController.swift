@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import ProgressHUD
 
 final class ImagesListViewController: UIViewController {
     
@@ -14,6 +15,13 @@ final class ImagesListViewController: UIViewController {
     
     var photos: [Photo] = []
     private var imagesListServices = ImagesListService()
+    
+    private lazy var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        return dateFormatter
+    }()
     
     // MARK: - UIStatusBarStyle
     
@@ -87,14 +95,14 @@ final class ImagesListViewController: UIViewController {
                 guard let self = self else { return }
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
             }
+         
             if let date = photos[indexPath.row].createdAt {
                 let dateFormatter = imagesListServices.dateFormatter()
-//                let dateFormatter = DateFormatter()
-//                dateFormatter.dateFormat = "dd MMMM yyyy"
                 cell.dateLabel.text = dateFormatter.string(from: date)
             } else {
                 cell.dateLabel.text = "Дата неизвестна"
             }
+
             let isLiked = isLiked(indexPath: indexPath)
             let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
             cell.likeButton.setImage(likeImage, for: .normal)
@@ -126,12 +134,8 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        //let photo = photos[indexPath.row]
         imageListCell.selectionStyle = .none
-        //imageListCell.delegate = self
-        //imageListCell.configCell(for: photo)
         configCell(for: imageListCell, with: indexPath)
-        //tableView.reloadRows(at: [indexPath], with: .automatic)
         imageListCell.addGradient()
         imageListCell.backgroundColor = UIColor.clear
 
@@ -170,16 +174,22 @@ extension ImagesListViewController: UITableViewDelegate {
 }
 
 extension ImagesListViewController: ImagesListCellDelegate {
+    
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let photo = photos[indexPath.row]
+        UIBlockingProgressHUD.show()
         imagesListServices.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success:
-                cell.setIsLiked(!photo.isLiked)
+                self.photos = self.imagesListServices.photos
+                cell.setIsLiked(self.photos[indexPath.row].isLiked)
+                UIBlockingProgressHUD.dismiss()
             case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
                 print("Error changing like: \(error)")
+                // TODO: ПОказать ошибку с использованием UIAlertController
             }
         }
     }

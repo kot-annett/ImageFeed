@@ -86,7 +86,8 @@ final class ProfileViewController: UIViewController {
     // MARK: - IB Actions
     
     @objc func logOutButtonTapped() {
-    //TODO: - настроить кнопку выхода
+        ProfileLogoutService.shared.logout()
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Public Methods

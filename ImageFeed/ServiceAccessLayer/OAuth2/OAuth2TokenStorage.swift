@@ -23,4 +23,8 @@ final class OAuth2TokenStorage {
             }
         }
     }
+    
+    static let shared = OAuth2TokenStorage()
+    
+    init() {}
 }
