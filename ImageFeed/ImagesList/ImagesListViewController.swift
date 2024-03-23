@@ -97,7 +97,6 @@ final class ImagesListViewController: UIViewController {
             }
          
             if let date = photos[indexPath.row].createdAt {
-                //let dateFormatter = imagesListServices.dateFormatter()
                 cell.dateLabel.text = dateFormatter.string(from: date)
             } else {
                 cell.dateLabel.text = "Дата неизвестна"
