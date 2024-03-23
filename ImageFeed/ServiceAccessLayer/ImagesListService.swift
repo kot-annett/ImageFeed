@@ -8,14 +8,17 @@
 import Foundation
 
 final class ImagesListService {
+    
+    static let shared = ImagesListService()
+    
     private (set) var photos: [Photo] = []
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     private var lastLoadedPage: Int?
     private let urlSession: URLSession
     private var lastTask: URLSessionTask?
-    private var authTokenStorage = OAuth2TokenStorage()
+    private var authTokenStorage = OAuth2TokenStorage.shared
     
-    init() {
+    private init() {
         urlSession = URLSession.shared
     }
     
@@ -65,14 +68,7 @@ final class ImagesListService {
         request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
     }
-    
-    func dateFormatter() -> DateFormatter {
-            let date = DateFormatter()
-            date.dateStyle = .long
-            date.timeStyle = .none
-            return date
-        }
-    
+
     func changeLike(
         photoId: String,
         isLike: Bool,
@@ -95,8 +91,8 @@ final class ImagesListService {
                                 size: photo.size,
                                 createdAt: photo.createdAt,
                                 welcomeDescription: photo.welcomeDescription,
-                                largeImageURL: photo.thumbImageURL,
-                                thumbImageURL: photo.largeImageURL,
+                                largeImageURL: photo.largeImageURL,
+                                thumbImageURL: photo.thumbImageURL,
                                 isLiked: !photo.isLiked
                             )
                             self.photos[index] = newPhoto

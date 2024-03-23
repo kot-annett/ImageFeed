@@ -14,7 +14,7 @@ final class ProfileImageService {
     private init() {}
     
     private let urlSession = URLSession.shared
-    private let oauth2TokenStorage = OAuth2TokenStorage()
+    private let oauth2TokenStorage = OAuth2TokenStorage.shared
     
     private var task: URLSessionTask?
     private (set) var avatarURL: String?

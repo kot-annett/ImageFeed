@@ -71,6 +71,7 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
@@ -94,6 +95,10 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: - Public Methods
+    
+    private func setupUI() {
+        view.backgroundColor = UIColor(named: "YP Black")
+    }
     
     private func addSubviews() {
         [

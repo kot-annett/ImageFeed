@@ -17,7 +17,7 @@ final class ProfileLogoutService {
         cleanCookies()
         clearToken()
         clearProfileData()
-        clearImageListData()
+        //clearImageListData()
         clearAvatarData()
     }
     
@@ -43,7 +43,7 @@ final class ProfileLogoutService {
     }
     
     private func clearImageListData() {
-        let imagesListServices = ImagesListService()
+        let imagesListServices = ImagesListService.shared
         imagesListServices.clearPhotos()
     }
 }

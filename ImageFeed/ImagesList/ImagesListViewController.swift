@@ -14,12 +14,12 @@ final class ImagesListViewController: UIViewController {
     private let tableView = UITableView()
     
     var photos: [Photo] = []
-    private var imagesListServices = ImagesListService()
+    private var imagesListServices = ImagesListService.shared
     
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        dateFormatter.locale = Locale(identifier: "ru_Ru")
         return dateFormatter
     }()
     
@@ -97,7 +97,7 @@ final class ImagesListViewController: UIViewController {
             }
          
             if let date = photos[indexPath.row].createdAt {
-                let dateFormatter = imagesListServices.dateFormatter()
+                //let dateFormatter = imagesListServices.dateFormatter()
                 cell.dateLabel.text = dateFormatter.string(from: date)
             } else {
                 cell.dateLabel.text = "Дата неизвестна"
