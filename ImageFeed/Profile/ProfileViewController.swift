@@ -49,6 +49,10 @@ final class ProfileViewController: UIViewController {
             button.setImage(exitImageButton, for: .normal)
         }
         button.tintColor = UIColor(named: "YP Red")
+        button.addTarget(
+            self,
+            action: #selector(logOutButtonTapped), for: .touchUpInside
+        )
         return button
     }()
     
@@ -67,6 +71,7 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
@@ -86,10 +91,14 @@ final class ProfileViewController: UIViewController {
     // MARK: - IB Actions
     
     @objc func logOutButtonTapped() {
-    //TODO: - настроить кнопку выхода
+        showLogoutConfirmationAlert()
     }
     
     // MARK: - Public Methods
+    
+    private func setupUI() {
+        view.backgroundColor = UIColor(named: "YP Black")
+    }
     
     private func addSubviews() {
         [
@@ -141,6 +150,23 @@ final class ProfileViewController: UIViewController {
                 print("Ошибка при загрузке изображения: \(error)")
             }
         }
+    }
+    
+    private func showLogoutConfirmationAlert() {
+        let alert = UIAlertController(title: "Выход", message: "Вы уверены, что хотите выйти из аккаунта?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Да", style: .destructive, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.performLogout()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func performLogout() {
+        ProfileLogoutService.shared.logout()
+        guard let window = UIApplication.shared.windows.first else { return }
+        let splashVC = SplashViewController()
+        window.rootViewController = splashVC
     }
     
     func updateProfileDetails() {

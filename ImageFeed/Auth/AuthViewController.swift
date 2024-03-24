@@ -35,6 +35,7 @@ final class AuthViewController: UIViewController, AuthViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         addSubviews()
         configureConstraints()
     }
@@ -47,6 +48,10 @@ final class AuthViewController: UIViewController, AuthViewControllerDelegate {
         }
         webViewViewController.delegate = self
         present(webViewViewController, animated: true, completion: nil)
+    }
+    
+    private func setupUI() {
+        view.backgroundColor = UIColor(named: "YP Black")
     }
     
     func addSubviews() {

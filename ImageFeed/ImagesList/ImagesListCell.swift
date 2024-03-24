@@ -7,21 +7,25 @@
 
 import Foundation
 import UIKit
+import Kingfisher
 
 final class ImagesListCell: UITableViewCell {
     
+    var imageLoadTask: DownloadTask?
+    weak var delegate: ImagesListCellDelegate?
+    
     // MARK: - UI Components
-    private let imageCell: UIImageView = {
+    let imageCell: UIImageView = {
         let imageView = UIImageView()
         return imageView
     }()
     
-    private let dateLabel: UILabel = {
+    let dateLabel: UILabel = {
         let label = UILabel()
         return label
     }()
     
-    private let likeButton: UIButton = {
+    let likeButton: UIButton = {
         let button = UIButton(type: .custom)
         return button
     }()
@@ -98,7 +102,6 @@ final class ImagesListCell: UITableViewCell {
             gradientView.bottomAnchor.constraint(equalTo: imageCell.bottomAnchor)
         ])
         
-        //dateLabel.font = UIFont(name: "SFPro-Medium", size: 13)
         dateLabel.font = UIFont.systemFont(ofSize: 13)
         dateLabel.textColor = .white
         
@@ -107,8 +110,14 @@ final class ImagesListCell: UITableViewCell {
         
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageLoadTask?.cancel()
+        imageCell.image = nil
+    }
+    
     @objc private func tappedLikeButton(_ sender: UIButton) {
-        // TODO: - Добавить логику нажатия на лайк
+        delegate?.imageListCellDidTapLike(self)
     }
     
     // MARK: - Public Methods
@@ -121,17 +130,7 @@ final class ImagesListCell: UITableViewCell {
         gradientView.layer.addSublayer(gradientLayer)
     }
     
-    func configCell(with imageName: String, with index: Int) {
-        guard let image = UIImage(named: imageName) else { return }
-        
-        imageCell.image = image
-        dateLabel.text = dateFormatter.string(from: Date())
-        
-        let isImageLiked = index % 2 == 0
-        setLikeButton(isLiked: isImageLiked)
-    }
-    
-    func setLikeButton(isLiked: Bool) {
+    func setIsLiked(_ isLiked: Bool) {
         let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
         likeButton.setImage(likeImage, for: .normal)
     }
