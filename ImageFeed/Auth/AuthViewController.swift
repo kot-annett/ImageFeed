@@ -13,7 +13,7 @@ final class AuthViewController: UIViewController, AuthViewControllerDelegate {
     private let showWebViewSegueIdentifier = "ShowWebView"
     
     weak var delegate: AuthViewControllerDelegate?
-    
+   
     private lazy var authLogoImage: UIImageView = {
         let logoImage = UIImage(named: "auth_screen_logo")
         let imageView = UIImageView(image: logoImage)
@@ -38,16 +38,6 @@ final class AuthViewController: UIViewController, AuthViewControllerDelegate {
         setupUI()
         addSubviews()
         configureConstraints()
-    }
-    
-    @objc func logInButtonTapped() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let webViewViewController = storyboard.instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController else {
-            showErrorAlert()
-            return
-        }
-        webViewViewController.delegate = self
-        present(webViewViewController, animated: true, completion: nil)
     }
     
     private func setupUI() {
@@ -77,6 +67,19 @@ final class AuthViewController: UIViewController, AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         dismiss(animated: true)
     }
+        
+    @objc func logInButtonTapped() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let webViewViewController = storyboard.instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController else {
+            showErrorAlert()
+            return
+        }
+        let webViewPresenter = WebViewPresenter()
+        webViewViewController.presenter = webViewPresenter
+        webViewPresenter.view = webViewViewController
+        webViewViewController.delegate = self
+        present(webViewViewController, animated: true, completion: nil)
+    }
     
     private func showErrorAlert() {
         let alertController = UIAlertController(
@@ -87,16 +90,6 @@ final class AuthViewController: UIViewController, AuthViewControllerDelegate {
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showWebViewSegueIdentifier {
-            guard let webViewViewController = segue.destination as? WebViewViewController
-            else { fatalError("Failed to prepare for \(showWebViewSegueIdentifier)")}
-            webViewViewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
     }
 }
 

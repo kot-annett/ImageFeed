@@ -92,9 +92,9 @@ extension OAuth2Service {
         
        guard let request = URLRequest.makeHTTPRequest(
             path: "/oauth/token"
-            + "?client_id=\(accessKey)"
-            + "&&client_secret=\(secretKey)"
-            + "&&redirect_uri=\(redirectURI)"
+            + "?client_id=\(Constants.accessKey)"
+            + "&&client_secret=\(Constants.secretKey)"
+            + "&&redirect_uri=\(Constants.redirectURI)"
             + "&&code=\(code)"
             + "&&grant_type=authorization_code",
             httpMethod: "POST",
@@ -110,7 +110,7 @@ extension URLRequest {
     static func makeHTTPRequest(
         path: String,
         httpMethod: String,
-        baseURL: URL? = defaultBaseURL
+        baseURL: URL? = Constants.defaultBaseURL
     ) -> URLRequest? {
         guard let baseURL = baseURL else { return nil }
         guard let url = URL(string: path, relativeTo: baseURL) else { return nil }
