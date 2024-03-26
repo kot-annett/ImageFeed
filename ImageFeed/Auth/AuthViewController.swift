@@ -8,10 +8,13 @@
 import UIKit
 import ProgressHUD
 
+protocol AuthViewControllerDelegate: AnyObject {
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
+}
+
 final class AuthViewController: UIViewController, AuthViewControllerDelegate {
     
     private let showWebViewSegueIdentifier = "ShowWebView"
-    
     weak var delegate: AuthViewControllerDelegate?
    
     private lazy var authLogoImage: UIImageView = {
@@ -74,7 +77,8 @@ final class AuthViewController: UIViewController, AuthViewControllerDelegate {
             showErrorAlert()
             return
         }
-        let webViewPresenter = WebViewPresenter()
+        let authHelper = AuthHelper()
+        let webViewPresenter = WebViewPresenter(authHelper: authHelper)
         webViewViewController.presenter = webViewPresenter
         webViewPresenter.view = webViewViewController
         webViewViewController.delegate = self
@@ -103,6 +107,4 @@ extension AuthViewController: WebViewViewControllerDelegate {
     }
 }
 
-protocol AuthViewControllerDelegate: AnyObject {
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
-}
+

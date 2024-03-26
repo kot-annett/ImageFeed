@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		95006CB32BB06A92005CCBBE /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95006CB22BB06A92005CCBBE /* WebViewPresenter.swift */; };
+		95006CB52BB2ECDF005CCBBE /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95006CB42BB2ECDF005CCBBE /* AuthHelper.swift */; };
 		951667C52B7CB8E7006C9B8E /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951667C42B7CB8E6006C9B8E /* SplashViewController.swift */; };
 		951D9DFD2B8211CE00253FA0 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 951D9DFC2B8211CE00253FA0 /* ProgressHUD */; };
 		951D9DFF2B834D9B00253FA0 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951D9DFE2B834D9B00253FA0 /* UIBlockingProgressHUD.swift */; };
@@ -35,7 +36,7 @@
 		95C6279B2B87B0A3001BB2C1 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6279A2B87B0A3001BB2C1 /* ProfileService.swift */; };
 		95C6279D2B8893C5001BB2C1 /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6279C2B8893C5001BB2C1 /* ProfileImageService.swift */; };
 		95CA7AAB2B542EF20059B076 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CA7AAA2B542EF20059B076 /* UIColor+Extensions.swift */; };
-		95D7B2622B7396E8007AB980 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D7B2612B7396E8007AB980 /* Constants.swift */; };
+		95D7B2622B7396E8007AB980 /* AuthConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D7B2612B7396E8007AB980 /* AuthConfiguration.swift */; };
 		95D7B2642B762911007AB980 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D7B2632B762911007AB980 /* AuthViewController.swift */; };
 		95D7B2672B766B46007AB980 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D7B2662B766B46007AB980 /* WebViewViewController.swift */; };
 		95D7B2692B7A1325007AB980 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D7B2682B7A1325007AB980 /* OAuth2Service.swift */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		95006CB22BB06A92005CCBBE /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
+		95006CB42BB2ECDF005CCBBE /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
 		951667C42B7CB8E6006C9B8E /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		951D9DFE2B834D9B00253FA0 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		951E560C2B592A950027BD72 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -74,7 +76,7 @@
 		95C6279A2B87B0A3001BB2C1 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		95C6279C2B8893C5001BB2C1 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 		95CA7AAA2B542EF20059B076 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
-		95D7B2612B7396E8007AB980 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		95D7B2612B7396E8007AB980 /* AuthConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConfiguration.swift; sourceTree = "<group>"; };
 		95D7B2632B762911007AB980 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		95D7B2662B766B46007AB980 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		95D7B2682B7A1325007AB980 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
@@ -150,7 +152,7 @@
 			children = (
 				95285B902B4BF5A50013A099 /* AppDelegate.swift */,
 				95285B922B4BF5A50013A099 /* SceneDelegate.swift */,
-				95D7B2612B7396E8007AB980 /* Constants.swift */,
+				95D7B2612B7396E8007AB980 /* AuthConfiguration.swift */,
 				95D7B26B2B7A1344007AB980 /* ServiceAccessLayer */,
 				9553220E2B9645E100E5A3E4 /* Models */,
 				951D9E002B834DA700253FA0 /* ProgressHUD */,
@@ -233,6 +235,7 @@
 				95D7B2632B762911007AB980 /* AuthViewController.swift */,
 				95D7B2662B766B46007AB980 /* WebViewViewController.swift */,
 				95006CB22BB06A92005CCBBE /* WebViewPresenter.swift */,
+				95006CB42BB2ECDF005CCBBE /* AuthHelper.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				9553220D2B9644D700E5A3E4 /* NetworkError.swift in Sources */,
 				951E560D2B592A950027BD72 /* ProfileViewController.swift in Sources */,
 				953649202B8E69DB00003D9A /* TabBarController.swift in Sources */,
+				95006CB52BB2ECDF005CCBBE /* AuthHelper.swift in Sources */,
 				955322142B965A2800E5A3E4 /* ProfileResult.swift in Sources */,
 				95285B932B4BF5A50013A099 /* SceneDelegate.swift in Sources */,
 				951667C52B7CB8E7006C9B8E /* SplashViewController.swift in Sources */,
@@ -368,7 +372,7 @@
 				955322122B96462000E5A3E4 /* ProfileImage.swift in Sources */,
 				952243A92BAC1F0C00EC902D /* ProfileLogoutService.swift in Sources */,
 				95D7B26D2B7A138F007AB980 /* OAuth2TokenStorage.swift in Sources */,
-				95D7B2622B7396E8007AB980 /* Constants.swift in Sources */,
+				95D7B2622B7396E8007AB980 /* AuthConfiguration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
